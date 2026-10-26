@@ -1,0 +1,166 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Fluxos da Microbacia do Taquari</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&family=Archivo+Narrow:wght@400;500;600&display=swap">
+<style>
+/* Layout: uma faixa de cabeçalho curta, abas por eixo, o diagrama largo em contêiner rolável e a tabela recolhível abaixo. */
+:root{
+  --bg:#f6f7f4; --surface:#ffffff; --fg:#1d2621; --muted:#5a685f; --line:#d9dfd9; --accent:#1f6f9f;
+  --tip-bg:#1d2621; --tip-fg:#f2f5f2;
+  --f-body:"Public Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-label:"Archivo Narrow","Arial Narrow",Arial,sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#111613; --surface:#171d19; --fg:#e4eae6; --muted:#9aa8a0; --line:#2c3630; --accent:#6db3df;
+  --tip-bg:#e4eae6; --tip-fg:#111613; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#111613; --surface:#171d19; --fg:#e4eae6; --muted:#9aa8a0; --line:#2c3630; --accent:#6db3df;
+  --tip-bg:#e4eae6; --tip-fg:#111613; color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:15px;line-height:1.5}
+.wrap{max-width:1320px;margin:0 auto;padding-block:28px 48px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:grid;gap:20px}
+header{display:grid;gap:6px}
+.eyebrow{font-family:var(--f-label);font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+h1{font-size:clamp(24px,3.2vw,34px);line-height:1.15;margin:0;font-weight:700;text-wrap:balance}
+.lede{margin:0;color:var(--muted);max-width:72ch}
+.tabs{display:flex;flex-wrap:wrap;gap:8px}
+.tabs button{font:600 14px var(--f-body);color:var(--fg);background:transparent;border:1px solid var(--line);border-radius:999px;padding:7px 14px;cursor:pointer}
+.tabs button[aria-selected="true"]{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+.tabs button:focus-visible,summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.note{font-size:14px;color:var(--muted);margin:0;max-width:80ch;min-width:0}
+.chart{background:var(--surface);border:1px solid var(--line);border-radius:10px;overflow-x:auto;position:relative}
+svg{display:block}
+.colhead{font:600 13px var(--f-label);letter-spacing:.04em;text-transform:uppercase;fill:var(--muted)}
+.nlabel{font:500 12.5px var(--f-label);fill:var(--fg);paint-order:stroke;stroke:var(--surface);stroke-width:3px;stroke-linejoin:round;pointer-events:none}
+.nlabel .ha{fill:var(--muted);font-weight:400}
+.link{fill:none;transition:stroke-opacity .15s}
+.node rect{stroke:var(--surface);stroke-width:1}
+.tip{position:fixed;pointer-events:none;background:var(--tip-bg);color:var(--tip-fg);font-size:13px;line-height:1.35;padding:8px 10px;border-radius:6px;max-width:300px;z-index:20}
+.tip b{display:block;font-weight:600}
+.readings{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+.reading{border-top:2px solid var(--fg);padding-top:8px;min-width:0}
+.reading h3{margin:0 0 4px;font-size:15px}
+.reading p{margin:0;font-size:14px;color:var(--muted)}
+details{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px 14px}
+summary{cursor:pointer;font-weight:600}
+.tablewrap{overflow-x:auto;margin-top:10px}
+table{border-collapse:collapse;font-size:13.5px;width:100%;min-width:560px}
+th,td{text-align:left;padding:5px 8px;border-bottom:1px solid var(--line)}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+footer{font-size:12.5px;color:var(--muted)}
+@media (prefers-reduced-motion:reduce){.link{transition:none}}
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Microbacia do Córrego Taquari · Palmas/TO · 4.587 ha</div>
+    <h1>Como a área da bacia passa de um tema a outro</h1>
+    <p class="lede">Cada faixa mostra quantos hectares de uma classe seguem para uma classe da etapa seguinte. As áreas vêm do cruzamento célula a célula (2 m) dos mapas do projeto.</p>
+  </header>
+
+  <div class="tabs" role="tablist" aria-label="Escolher a leitura">
+    <button role="tab" id="tab-tudo" data-view="tudo" aria-selected="true">Todos os temas</button>
+    <button role="tab" id="tab-agua" data-view="agua" aria-selected="false">Eixo água</button>
+    <button role="tab" id="tab-vegetacao" data-view="vegetacao" aria-selected="false">Eixo vegetação</button>
+  </div>
+  <p class="note" id="viewnote"></p>
+
+  <div class="chart" id="chart"></div>
+
+  <section class="readings" id="readings" aria-label="Leituras principais"></section>
+
+  <details>
+    <summary>Ver os fluxos em tabela</summary>
+    <div class="tablewrap"><table id="tbl"><thead><tr><th>De</th><th>Para</th><th class="num">Área (ha)</th><th class="num">% da bacia</th></tr></thead><tbody></tbody></table></div>
+  </details>
+
+  <footer>Fontes: MDE das curvas de nível de 1 m; momentos da água e indicador de adequação (elaboração própria); MapBiomas 10 m (2022) e Fogo col. 4; Sentinel-2 (2025); Meta/WRI; Overture Maps; Prefeitura de Palmas. Fluxos abaixo de 0,5 ha omitidos.</footer>
+</div>
+<div class="tip" id="tip" hidden></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/d3-sankey@0.12.3/dist/d3-sankey.min.js"></script>
+<script>
+const DATA={"stages":{"relevo":{"title":"Relevo","classes":["Plano a suave ondulado (< 4,6°)","Ondulado (4,6–11,3°)","Forte ondulado a montanhoso (> 11,3°)"],"ha":[4141.5,347.2,97.9]},"momento":{"title":"Momento da água","classes":["Infiltração","Condução","Acomodação"],"ha":[1376.0,1834.7,1376.0]},"cobertura":{"title":"Cobertura da superfície","classes":["Vegetação nativa","Vegetação antrópica","Solo exposto","Superfície impermeável","Água"],"ha":[1777.9,1587.5,614.0,603.5,3.8]},"antrop":{"title":"Antropização","classes":["Antropização baixa","Antropização média","Antropização alta","Sem vegetação / não se aplica"],"ha":[1579.4,879.1,1434.8,693.3]},"adequacao":{"title":"Adequação hidrológica","classes":["Adequação baixa","Adequação média","Adequação alta"],"ha":[1167.6,1346.9,2072.2]},"ameaca":{"title":"Ameaça de inundação","classes":["Fora das áreas inundáveis","Ameaça baixa a média","Ameaça alta a muito alta"],"ha":[4298.4,164.3,124.0]},"fito":{"title":"Fitofisionomia","classes":["Mata de galeria / cerradão","Cerrado denso / típico","Cerrado ralo / campos","Vereda / campo úmido","Antrópico arbóreo","Antrópico herbáceo","Sem vegetação / água"],"ha":[172.1,1255.4,389.7,27.4,575.9,1595.2,571.0]},"fogo":{"title":"Queimadas 1985–2024","classes":["Nunca queimou","Queimou 1–3 vezes","Queimou 4–10 vezes","Queimou mais de 10 vezes"],"ha":[1580.3,1184.0,1124.3,698.1]},"estresse":{"title":"Estresse da vegetação","classes":["Sem estresse","Estresse leve","Estresse moderado a severo","Sem vegetação"],"ha":[2779.4,638.0,463.6,705.6]}},"views":{"tudo":{"stages":["relevo","momento","cobertura","antrop","adequacao","ameaca"],"links":[["relevo",0,"momento",0,1234.1],["relevo",0,"momento",1,1643.3],["relevo",0,"momento",2,1264.2],["relevo",1,"momento",0,94.7],["relevo",1,"momento",1,151.4],["relevo",1,"momento",2,101.1],["relevo",2,"momento",0,47.2],["relevo",2,"momento",1,40.0],["relevo",2,"momento",2,10.8],["momento",0,"cobertura",0,335.5],["momento",0,"cobertura",1,467.3],["momento",0,"cobertura",2,285.2],["momento",0,"cobertura",3,287.9],["momento",1,"cobertura",0,728.6],["momento",1,"cobertura",1,635.0],["momento",1,"cobertura",2,245.8],["momento",1,"cobertura",3,224.8],["momento",2,"cobertura",0,713.8],["momento",2,"cobertura",1,485.2],["momento",2,"cobertura",2,82.9],["momento",2,"cobertura",3,90.7],["momento",2,"cobertura",4,3.4],["cobertura",0,"antrop",0,1301.0],["cobertura",0,"antrop",1,317.6],["cobertura",0,"antrop",2,159.4],["cobertura",1,"antrop",0,258.9],["cobertura",1,"antrop",1,469.6],["cobertura",1,"antrop",2,859.0],["cobertura",2,"antrop",0,17.2],["cobertura",2,"antrop",1,67.4],["cobertura",2,"antrop",2,268.8],["cobertura",2,"antrop",3,260.5],["cobertura",3,"antrop",0,1.8],["cobertura",3,"antrop",1,23.1],["cobertura",3,"antrop",2,147.6],["cobertura",3,"antrop",3,431.0],["cobertura",4,"antrop",0,0.6],["cobertura",4,"antrop",1,1.3],["cobertura",4,"antrop",3,1.8],["antrop",0,"adequacao",0,10.5],["antrop",0,"adequacao",1,180.2],["antrop",0,"adequacao",2,1388.8],["antrop",1,"adequacao",0,156.5],["antrop",1,"adequacao",1,315.1],["antrop",1,"adequacao",2,407.5],["antrop",2,"adequacao",0,544.8],["antrop",2,"adequacao",1,637.3],["antrop",2,"adequacao",2,252.8],["antrop",3,"adequacao",0,455.8],["antrop",3,"adequacao",1,214.4],["antrop",3,"adequacao",2,23.1],["adequacao",0,"ameaca",0,1158.4],["adequacao",0,"ameaca",1,3.4],["adequacao",0,"ameaca",2,5.8],["adequacao",1,"ameaca",0,1310.2],["adequacao",1,"ameaca",1,20.2],["adequacao",1,"ameaca",2,16.5],["adequacao",2,"ameaca",0,1829.8],["adequacao",2,"ameaca",1,140.7],["adequacao",2,"ameaca",2,101.7]]},"agua":{"stages":["relevo","momento","cobertura","adequacao","ameaca"],"links":[["relevo",0,"momento",0,1234.1],["relevo",0,"momento",1,1643.3],["relevo",0,"momento",2,1264.2],["relevo",1,"momento",0,94.7],["relevo",1,"momento",1,151.4],["relevo",1,"momento",2,101.1],["relevo",2,"momento",0,47.2],["relevo",2,"momento",1,40.0],["relevo",2,"momento",2,10.8],["momento",0,"cobertura",0,335.5],["momento",0,"cobertura",1,467.3],["momento",0,"cobertura",2,285.2],["momento",0,"cobertura",3,287.9],["momento",1,"cobertura",0,728.6],["momento",1,"cobertura",1,635.0],["momento",1,"cobertura",2,245.8],["momento",1,"cobertura",3,224.8],["momento",2,"cobertura",0,713.8],["momento",2,"cobertura",1,485.2],["momento",2,"cobertura",2,82.9],["momento",2,"cobertura",3,90.7],["momento",2,"cobertura",4,3.4],["cobertura",0,"adequacao",0,1.2],["cobertura",0,"adequacao",1,119.9],["cobertura",0,"adequacao",2,1656.9],["cobertura",1,"adequacao",0,455.8],["cobertura",1,"adequacao",1,803.7],["cobertura",1,"adequacao",2,328.0],["cobertura",2,"adequacao",0,328.2],["cobertura",2,"adequacao",1,230.7],["cobertura",2,"adequacao",2,55.1],["cobertura",3,"adequacao",0,382.4],["cobertura",3,"adequacao",1,189.2],["cobertura",3,"adequacao",2,31.9],["cobertura",4,"adequacao",1,3.5],["adequacao",0,"ameaca",0,1158.4],["adequacao",0,"ameaca",1,3.4],["adequacao",0,"ameaca",2,5.8],["adequacao",1,"ameaca",0,1310.2],["adequacao",1,"ameaca",1,20.2],["adequacao",1,"ameaca",2,16.5],["adequacao",2,"ameaca",0,1829.8],["adequacao",2,"ameaca",1,140.7],["adequacao",2,"ameaca",2,101.7]]},"vegetacao":{"stages":["momento","fito","fogo","estresse","antrop"],"links":[["momento",0,"fito",0,6.9],["momento",0,"fito",1,244.0],["momento",0,"fito",2,105.3],["momento",0,"fito",3,0.9],["momento",0,"fito",4,134.6],["momento",0,"fito",5,583.0],["momento",0,"fito",6,301.2],["momento",1,"fito",0,23.5],["momento",1,"fito",1,560.1],["momento",1,"fito",2,175.8],["momento",1,"fito",3,3.0],["momento",1,"fito",4,209.2],["momento",1,"fito",5,656.5],["momento",1,"fito",6,206.5],["momento",2,"fito",0,141.6],["momento",2,"fito",1,451.4],["momento",2,"fito",2,108.5],["momento",2,"fito",3,23.5],["momento",2,"fito",4,232.1],["momento",2,"fito",5,355.7],["momento",2,"fito",6,63.3],["fito",0,"fogo",0,126.4],["fito",0,"fogo",1,34.5],["fito",0,"fogo",2,11.1],["fito",1,"fogo",0,160.7],["fito",1,"fogo",1,306.4],["fito",1,"fogo",2,458.7],["fito",1,"fogo",3,329.7],["fito",2,"fogo",0,25.6],["fito",2,"fogo",1,68.4],["fito",2,"fogo",2,165.2],["fito",2,"fogo",3,130.6],["fito",3,"fogo",0,19.6],["fito",3,"fogo",1,5.2],["fito",3,"fogo",2,0.9],["fito",3,"fogo",3,1.6],["fito",4,"fogo",0,219.2],["fito",4,"fogo",1,198.3],["fito",4,"fogo",2,130.2],["fito",4,"fogo",3,28.3],["fito",5,"fogo",0,707.3],["fito",5,"fogo",1,423.9],["fito",5,"fogo",2,293.2],["fito",5,"fogo",3,170.9],["fito",6,"fogo",0,321.5],["fito",6,"fogo",1,147.4],["fito",6,"fogo",2,65.0],["fito",6,"fogo",3,37.0],["fogo",0,"estresse",0,938.9],["fogo",0,"estresse",1,128.9],["fogo",0,"estresse",2,101.9],["fogo",0,"estresse",3,410.6],["fogo",1,"estresse",0,712.9],["fogo",1,"estresse",1,160.4],["fogo",1,"estresse",2,126.0],["fogo",1,"estresse",3,184.7],["fogo",2,"estresse",0,716.2],["fogo",2,"estresse",1,190.7],["fogo",2,"estresse",2,143.5],["fogo",2,"estresse",3,73.8],["fogo",3,"estresse",0,411.4],["fogo",3,"estresse",1,158.0],["fogo",3,"estresse",2,92.2],["fogo",3,"estresse",3,36.5],["estresse",0,"antrop",0,1129.8],["estresse",0,"antrop",1,592.3],["estresse",0,"antrop",2,1057.3],["estresse",1,"antrop",0,258.1],["estresse",1,"antrop",1,158.8],["estresse",1,"antrop",2,221.1],["estresse",2,"antrop",0,190.7],["estresse",2,"antrop",1,124.5],["estresse",2,"antrop",2,148.5],["estresse",3,"antrop",0,0.8],["estresse",3,"antrop",1,3.5],["estresse",3,"antrop",2,8.0],["estresse",3,"antrop",3,693.3]]}},"total_ha":4586.7};
+const COLORS={
+  relevo:['#dfc27d','#a6611a','#543005'],
+  momento:['#238b45','#f0a33a','#2c7fb8'],
+  cobertura:['#1b7837','#a6d96a','#e09a63','#6b6b6b','#2532e4'],
+  antrop:['#1a9850','#e6b83a','#d73027','#b5b5b5'],
+  adequacao:['#d7191c','#e6b83a','#1a9641'],
+  ameaca:['#b7c7d3','#fd8d3c','#800026'],
+  fito:['#00441b','#4daf4a','#b8d86b','#41b6c4','#7f9f6a','#cbbf84','#b5b5b5'],
+  fogo:['#d4d4d4','#fcae91','#fb6a4a','#a50f15'],
+  estresse:['#1a9850','#e6b83a','#d73027','#b5b5b5']
+};
+const NOTES={
+  tudo:'Do terreno à ameaça de inundação: relevo, momento da água, cobertura, antropização, adequação hidrológica e ameaça.',
+  agua:'Leitura hidrológica: como o relevo e a cobertura se distribuem pelos momentos da água e chegam à adequação e à ameaça de inundação.',
+  vegetacao:'Leitura da vegetação: fitofisionomias por momento da água, histórico de fogo, estresse na seca de 2025 e antropização.'
+};
+const READ={
+  tudo:[
+    ['Relevo pouco decide','90% da bacia é plana a suave ondulada e se divide quase igualmente entre os três momentos da água.'],
+    ['A cobertura decide a adequação','Quase toda a vegetação nativa chega a adequação alta; solo exposto e superfície impermeável alimentam a adequação baixa.'],
+    ['Inundação cai em áreas adequadas','Das áreas com ameaça alta, 82% têm adequação alta: são fundos de vale ainda vegetados que cumprem a função de acomodar a água.']],
+  agua:[
+    ['Infiltração é a zona mais impermeabilizada','Na zona de infiltração, 21% é superfície impermeável e 21% solo exposto, contra 7% e 6% na acomodação.'],
+    ['Condução concentra vegetação nativa','A condução tem 729 ha de vegetação nativa, a maior área nativa entre os três momentos.'],
+    ['Pouca ameaça vem da adequação baixa','Só 9 ha das áreas com ameaça estão em adequação baixa; o problema da adequação baixa está a montante, na recarga.']],
+  vegetacao:[
+    ['O fogo é recorrente no cerrado','Do cerrado denso e típico, 63% queimou 4 vezes ou mais desde 1985.'],
+    ['Herbáceo antrópico domina','A maior classe é a vegetação herbácea antrópica (1.595 ha), sobretudo nas zonas de infiltração e condução.'],
+    ['Estresse cresce com o fogo','O estresse moderado a severo vai de 9% da área vegetada que nunca queimou a 14% da que queimou mais de 10 vezes.']]
+};
+const SHORT={relevo:['Plano a suave ondulado','Ondulado','Forte ondulado a montanhoso'],antrop:['Antropização baixa','Antropização média','Antropização alta','Sem vegetação']};
+const HEAD={relevo:'Relevo',momento:'Momento da água',cobertura:'Cobertura',antrop:'Antropização',adequacao:'Adequação',ameaca:'Ameaça de inundação',fito:'Fitofisionomia',fogo:'Queimadas 1985–2024',estresse:'Estresse da vegetação'};
+const LONG={relevo:DATA.stages.relevo.classes.slice()};
+Object.entries(SHORT).forEach(([k,v])=>{DATA.stages[k].classes=v});
+const fmt=new Intl.NumberFormat('pt-BR',{maximumFractionDigits:1,minimumFractionDigits:1});
+const fmt0=new Intl.NumberFormat('pt-BR',{maximumFractionDigits:0});
+const TOTAL=DATA.total_ha;
+const tip=document.getElementById('tip');
+function showTip(e,html){tip.innerHTML=html;tip.hidden=false;moveTip(e)}
+function moveTip(e){const w=tip.offsetWidth,h=tip.offsetHeight;let x=e.clientX+14,y=e.clientY+14;if(x+w>innerWidth-8)x=e.clientX-w-14;if(y+h>innerHeight-8)y=e.clientY-h-14;tip.style.left=x+'px';tip.style.top=y+'px'}
+function hideTip(){tip.hidden=true}
+
+function render(view){
+  const v=DATA.views[view];const st=v.stages;
+  document.getElementById('viewnote').textContent=NOTES[view];
+  const nodes=[];st.forEach(s=>DATA.stages[s].classes.forEach((c,i)=>{if(DATA.stages[s].ha[i]>0.5)nodes.push({id:s+':'+i,stage:s,i,name:c,color:COLORS[s][i]})}));
+  const ids=new Set(nodes.map(n=>n.id));
+  const links=v.links.filter(l=>ids.has(l[0]+':'+l[1])&&ids.has(l[2]+':'+l[3])).map(l=>({source:l[0]+':'+l[1],target:l[2]+':'+l[3],value:l[4]}));
+  const W=Math.max(1180,Math.min(1300,document.getElementById('chart').clientWidth)),H=660,top=40,padR=240;
+  const sk=d3.sankey().nodeId(d=>d.id).nodeWidth(14).nodePadding(12).nodeSort(null).linkSort(null).nodeAlign(d3.sankeyJustify).extent([[8,top],[W-padR,H-12]]);
+  const g=sk({nodes:nodes.map(d=>({...d})),links:links.map(d=>({...d}))});
+  const el=document.getElementById('chart');el.innerHTML='';
+  const svg=d3.select(el).append('svg').attr('width',W).attr('height',H).attr('viewBox',[0,0,W,H]).attr('role','img').attr('aria-label','Diagrama de Sankey: '+st.map(s=>DATA.stages[s].title).join(', '));
+  const xs=[...new Set(g.nodes.map(n=>n.x0))].sort((a,b)=>a-b);
+  svg.append('g').selectAll('text').data(st).join('text').attr('class','colhead').attr('x',(d,i)=>xs[i]).attr('y',22).text(d=>HEAD[d]);
+  const link=svg.append('g').selectAll('path').data(g.links).join('path').attr('class','link')
+    .attr('d',d3.sankeyLinkHorizontal()).attr('stroke',d=>d.source.color).attr('stroke-width',d=>Math.max(1,d.width)).attr('stroke-opacity',.38)
+    .on('mouseenter',(e,d)=>{link.attr('stroke-opacity',l=>l===d?.8:.12);showTip(e,`<b>${d.source.name} → ${d.target.name}</b>${fmt.format(d.value)} ha · ${fmt.format(d.value/TOTAL*100)}% da bacia<br>${fmt0.format(d.value/d.source.value*100)}% de “${d.source.name}”`)})
+    .on('mousemove',moveTip).on('mouseleave',()=>{link.attr('stroke-opacity',.38);hideTip()});
+  const node=svg.append('g').selectAll('g').data(g.nodes).join('g').attr('class','node');
+  node.append('rect').attr('x',d=>d.x0).attr('y',d=>d.y0).attr('width',d=>d.x1-d.x0).attr('height',d=>Math.max(1,d.y1-d.y0)).attr('fill',d=>d.color).attr('rx',2)
+    .on('mouseenter',(e,d)=>{link.attr('stroke-opacity',l=>(l.source===d||l.target===d)?.75:.08);showTip(e,`<b>${DATA.stages[d.stage].title}: ${(LONG[d.stage]||[])[d.i]||d.name}</b>${fmt.format(d.value)} ha · ${fmt.format(d.value/TOTAL*100)}% da bacia`)})
+    .on('mousemove',moveTip).on('mouseleave',()=>{link.attr('stroke-opacity',.38);hideTip()});
+  const lab=node.filter(d=>d.y1-d.y0>=7).append('text').attr('class','nlabel')
+    .attr('x',d=>d.x1+6).attr('y',d=>(d.y0+d.y1)/2).attr('dy','0.35em');
+  lab.append('tspan').text(d=>d.name+' ');
+  lab.append('tspan').attr('class','ha').text(d=>fmt0.format(d.value)+' ha');
+  const tb=document.querySelector('#tbl tbody');tb.innerHTML='';
+  g.links.forEach(l=>{const tr=document.createElement('tr');tr.innerHTML=`<td>${DATA.stages[l.source.stage].title}: ${l.source.name}</td><td>${DATA.stages[l.target.stage].title}: ${l.target.name}</td><td class="num">${fmt.format(l.value)}</td><td class="num">${fmt.format(l.value/TOTAL*100)}</td>`;tb.appendChild(tr)});
+  const rd=document.getElementById('readings');rd.innerHTML='';
+  READ[view].forEach(([h,p])=>{const d=document.createElement('div');d.className='reading';d.innerHTML=`<h3>${h}</h3><p>${p}</p>`;rd.appendChild(d)});
+}
+let current='tudo';
+document.querySelectorAll('.tabs button').forEach(b=>b.addEventListener('click',()=>{
+  document.querySelectorAll('.tabs button').forEach(x=>x.setAttribute('aria-selected',x===b?'true':'false'));
+  current=b.dataset.view;try{localStorage.setItem('sankey-view',current)}catch(e){}render(current)}));
+try{const s=localStorage.getItem('sankey-view');if(s&&DATA.views[s]){current=s;document.querySelectorAll('.tabs button').forEach(x=>x.setAttribute('aria-selected',x.dataset.view===s?'true':'false'))}}catch(e){}
+render(current);
+let rt;addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(()=>render(current),200)});
+</script>
+
+</body></html>
