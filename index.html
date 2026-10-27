@@ -1297,8 +1297,9 @@ async function homeRef(){const R=[
  ['Dados',[['INMET – estação automática A009 Palmas, 2025.','Temperatura, umidade e chuva horárias.'],['IBGE – Censo Demográfico 2022, agregados por setor censitário.',''],['IBGE – BDiA Pedologia 1:250.000.',''],['MapBiomas – Coleção 9 (1985–2023) e MapBiomas Fogo.',''],['SGB/CPRM – SIAGAS, poços tubulares.',''],['Overture Maps Foundation e OpenStreetMap.','Edificações e uso do solo.'],['Procedimentos do autor (scripts s1–s23 em QGIS/GDAL/GRASS).','MDE das curvas de 1 m, manchas de inundação (IDF recalibrada), diagnósticos e pontos de validação.']]]];
  add(`<section><h2>Referências e fontes</h2>${R.map(([g,L])=>`<h3>${g}</h3><ul class="refs">${L.map(([a,b])=>`<li>${a}${b?`<br><span class="src">${b}</span>`:''}</li>`).join('')}</ul>`).join('')}</section>`)}
 /* ================= VERSÃO E ATUALIZAÇÕES ================= */
-const VERSAO={n:53,d:'27/10/2026',h:'10:42'};
+const VERSAO={n:54,d:'27/10/2026',h:'11:00'};
 const CHANGELOG=[
+ {v:54,d:'27/10/2026 11:00',t:'Histórico completo',i:['Aba Atualizações com as versões 1 a 40 detalhadas e o trabalho anterior ao site (18 a 21/10)']},
  {v:53,d:'27/10/2026 10:42',t:'Colunas dos riscos e relevo corrigido',i:['Mapa de colunas em Síntese › Riscos › Mapas em 3D: risco, ameaça, exposição e vulnerabilidade de cada ameaça (e os índices gerais), por hexágonos de 50, 100 ou 200 m','Relevo do 3D corrigido nas bordas sudeste, leste e sul da bacia: as rampas planas da triangulação das curvas (fora da cobertura das curvas) foram trocadas pela cota vizinha do interior']},
  {v:52,d:'27/10/2026 10:24',t:'Mapinha de localização e norte',i:['Mapinha da bacia ao lado do recorte do 3D: clique num bairro ou numa bacia de contribuição para ver o 3D do lugar; clique fora para voltar à bacia inteira','Seta do norte no 3D e no mapa de colunas, e escala de 1 km no mapinha']},
  {v:51,d:'27/10/2026 10:21',t:'Copas no chão',i:['As copas das árvores deixam de flutuar: cada esfera fica apoiada no relevo, na mesma proporção do exagero vertical']},
@@ -1311,17 +1312,57 @@ const CHANGELOG=[
  {v:44,d:'27/10/2026 02:29',t:'Acabamento do 3D',i:['Cor dos edifícios e das ruas à escolha','Copas das árvores como esferas','Sombreamento opcional com sombra projetada de edifícios e copas','Opacidade de sombras, copas, edifícios e vias']},
  {v:43,d:'27/10/2026 01:54',t:'3D refeito e lazer contínuo',i:['Relevo do MDE de 20 m com resolução de 20, 40 ou 60 m; falhas preenchidas pelos vizinhos e cinza onde não há dado','Ruas em linha ou polígono, edifícios, copas e SbN dos hexágonos no 3D','Lazer calculado no tecido urbano contínuo; subeixo de equipamentos em toda a área urbana','Gráficos estatísticos no fim do painel de cada eixo']},
  {v:42,d:'27/10/2026 00:56',t:'Gráficos estatísticos e 3D',i:['Rich picture, radar, boxplot e violino, beeswarm e coordenadas paralelas','Edifícios em volume, vistas oblíqua, isométrica e de cima, mapa explodido','Janela do ano (temperatura, umidade, radiação e chuva) na metodologia do calor','Correlações em bolhas; mapas da ficha na ordem risco, fitofisionomia, momento e SbN; SbN pequenas no mapa de 5 m']},
- {v:41,d:'27/10/2026 00:13',t:'Compatibilidade e SbN privadas',i:['Compatibilidade de todas as SbN em cada lugar, momento e fitofisionomia','SbN privadas e de edificação (lotes e telhados)','Barra de prioridade mínima no mapa','Painel de cada SbN com função, benefícios e relações; ficha com fitofisionomia e lote']},
- {v:null,d:'26/10/2026 20:23',t:'Lazer e ficha por bacia',i:['Lazer com equipamentos, APMs e diversidade de espaços livres; 3 SbN novas','Ficha por bacia de contribuição','FAHP passo a passo em todos os eixos','Referências descritas pelos procedimentos']},
- {v:null,d:'26/10/2026 17:11',t:'Referências e tratamento',i:['Referência e tratamento aplicado em cada dado, variável, indicador e critério']},
- {v:null,d:'26/10/2026 16:51',t:'Transectos e cortes',i:['Transectos em todas as seções e cortes na ficha','Risco da síntese só na mancha de ameaça','Tabela de dados de entrada']},
- {v:null,d:'26/10/2026 15:51',t:'Correções',i:['Risco só na mancha, calor, transectos, bairros e bacias, 3D e ficha do bairro']},
- {v:null,d:'26/10/2026 09:40',t:'Primeira publicação',i:['Site Riscos e SbN no Taquari publicado']}];
+ {v:41,d:'27/10/2026 00:12',t:'Compatibilidade e SbN privadas',i:['Compatibilidade de todas as SbN em cada lugar, momento e fitofisionomia','SbN privadas e de edificação (lotes e telhados)','Barra de prioridade mínima no mapa','Painel de cada SbN com função, benefícios e relações; ficha com fitofisionomia e lote']},
+ {v:40,d:'26/10/2026 20:22',t:'Lazer e ficha por bacia',i:['Lazer com equipamentos (escolas, creches, UBS), APMs e diversidade de espaços livres; 3 SbN novas','Ficha por bacia de contribuição','FAHP passo a passo em todos os eixos','Referências descritas pelos procedimentos do TCC']},
+ {v:39,d:'26/10/2026 17:10',t:'Referências nas tabelas',i:['Referência e tratamento aplicado em cada variável, indicador do calor e critério dos momentos e das SbN']},
+ {v:38,d:'26/10/2026 17:06',t:'Dados de entrada',i:['Tabela de dados de entrada com referência e tratamento aplicado a cada dado']},
+ {v:37,d:'26/10/2026 16:51',t:'Transectos e cortes',i:['Transectos em todas as seções e cortes do terreno na ficha','Risco da síntese só dentro da mancha de ameaça','Ficha em PDF revisada']},
+ {v:36,d:'26/10/2026 15:51',t:'Correções e apêndices',i:['Risco só na mancha nas ameaças de água, erosão e saneamento','Metodologia do calor, bairros e bacias, 3D e ficha do bairro revisados','Apêndices A (cálculos) e B (fichas das SbN) gerados para o documento']},
+ {v:35,d:'26/10/2026 09:33',t:'Publicação no GitHub',i:['Site publicado no GitHub com as camadas em arquivos separados']},
+ {v:34,d:'26/10/2026 09:24',t:'Versão offline',i:['Pacote para abrir sem internet (camadas embutidas em lay/*.js)']},
+ {v:33,d:'26/10/2026 09:13',t:'Matriz e prioridade',i:['Matriz de funções e prioridade das SbN revisadas; ficha atualizada']},
+ {v:32,d:'26/10/2026 08:34',t:'Carteira de SbN',i:['Carteira de 3 SbN por mancha, escolhida pela demanda somada das ameaças','Matriz de funções das SbN']},
+ {v:31,d:'26/10/2026 08:08',t:'Ficha e ameaças atendidas',i:['Ficha do lugar refeita','Mapa de quantas ameaças cada mancha atende']},
+ {v:30,d:'26/10/2026 07:59',t:'Eficácia das SbN',i:['Eficácia de cada SbN por ameaça na síntese','Metodologia da exposição, da vulnerabilidade e do risco']},
+ {v:29,d:'26/10/2026 07:49',t:'FAHP de exposição e vulnerabilidade',i:['Inundação até o TR 500','Momentos da água pelo FAHP a 5 m','FAHP e sensibilidade da exposição e da vulnerabilidade por ameaça','Análise riscos × fitofisionomia × momento']},
+ {v:28,d:'26/10/2026 04:42',t:'Momentos no risco',i:['Momentos da água (FAHP) cruzados com o calor e os riscos']},
+ {v:27,d:'26/10/2026 04:29',t:'Painel de exposição e vulnerabilidade',i:['Painel da exposição e da vulnerabilidade','3D por bacia de contribuição','Limitações revisadas']},
+ {v:26,d:'26/10/2026 04:22',t:'Mapas e atlas',i:['Aba de mapas e atlas em cada eixo']},
+ {v:25,d:'26/10/2026 04:20',t:'Gráficos das SbN',i:['Gráficos da área e das famílias de SbN']},
+ {v:24,d:'26/10/2026 04:19',t:'Sínteses com fitofisionomia',i:['Riscos × fitofisionomia × momento (esquema da encosta)','Guia SbN × fitofisionomia × momento']},
+ {v:23,d:'26/10/2026 04:17',t:'Cenários',i:['Simulador de cenários']},
+ {v:22,d:'26/10/2026 04:16',t:'Ficha do bairro e relevo 3D',i:['Ficha do bairro (PDF)','Relevo em 3D (60 m)','Catálogo de SbN revisado','Metodologias do verde e do calor; relações e FAHP revisados']},
+ {v:21,d:'25/10/2026 23:57',t:'Referências',i:['Página de referências e fontes']},
+ {v:20,d:'25/10/2026 23:57',t:'Painéis e bacia em 3D',i:['Painel de análises em cada ameaça','A bacia em 3D na página inicial','Relações entre ameaças']},
+ {v:19,d:'25/10/2026 23:46',t:'Unidades e tipologias',i:['Resumos por bairro, setor e hexágono','Mapa das SbN por família e por tipologia']},
+ {v:18,d:'25/10/2026 23:25',t:'Evolução no tempo',i:['Aba de evolução no tempo (calor, enxurrada, degradação)']},
+ {v:17,d:'25/10/2026 23:17',t:'Página inicial',i:['Página "O sistema" e camadas dos momentos']},
+ {v:16,d:'25/10/2026 23:13',t:'Ameaça × exposição × vulnerabilidade',i:['Leitura conjunta ameaça, exposição e vulnerabilidade','Análise de componentes principais (PCA)']},
+ {v:15,d:'25/10/2026 21:59',t:'FAHP nos eixos',i:['Matrizes FAHP e pesos de cada eixo']},
+ {v:14,d:'25/10/2026 21:17',t:'Ajuste das SbN',i:['Revisão das tipologias de jardim no mapa das SbN']},
+ {v:13,d:'25/10/2026 20:30',t:'SbN por momento',i:['SbN de cada momento da água','Ordem de implantação (Leitura 2) e famílias no mapa']},
+ {v:12,d:'25/10/2026 20:13',t:'Momentos em 5 m',i:['Mapa dos momentos em 5 m','Prancha dos momentos em PDF, com e sem edificações']},
+ {v:11,d:'25/10/2026 19:54',t:'Fonte impermeabilizada',i:['Classe de fonte impermeabilizada e classes por percentil nos momentos']},
+ {v:10,d:'25/10/2026 19:45',t:'Ajuste',i:['Republicação com correções']},
+ {v:9,d:'25/10/2026 19:45',t:'FAHP e saneamento',i:['FAHP (Buckley) para os pesos','Prioridade entre ameaças pelo FAHP','Saneamento com fossas (antes e depois)','Solo pelo SoilGrids; momentos com critérios, solo e sensibilidade']},
+ {v:8,d:'25/10/2026 17:36',t:'Ajuste',i:['Republicação com correções']},
+ {v:7,d:'25/10/2026 17:36',t:'Alagamento e fitofisionomia',i:['Alagamento refeito','Fitofisionomias agregadas a 20 m']},
+ {v:6,d:'25/10/2026 17:11',t:'Critérios e fichas das SbN',i:['Critérios das SbN','Fichas das SbN','Matriz e fluxo SbN × fitofisionomia × momento']},
+ {v:5,d:'21/10/2026 11:42',t:'Ajuste',i:['Republicação com correções']},
+ {v:4,d:'21/10/2026 11:41',t:'Exposição, vulnerabilidade e síntese',i:['Abas de exposição e vulnerabilidade','Painel completo do calor','Fluxos e relações incorporados','Síntese dos riscos']},
+ {v:3,d:'21/10/2026 11:11',t:'Ajuste',i:['Republicação com correções']},
+ {v:2,d:'21/10/2026 11:10',t:'SbN em hexágonos',i:['SbN em hexágonos','Exposição e vulnerabilidade por setor','Multirrisco']},
+ {v:1,d:'21/10/2026 10:15',t:'Primeira versão do site',i:['As 8 ameaças com metodologia, variáveis, subeixos, índice, risco, validação, correlações, bairros e limitações','Momentos da água por bacia e verde × riscos']},
+ {v:'pre',d:'21/10/2026 00h–09h',t:'índice do calor e eixos',i:['Validação da forçante e da física do SOLWEIG','Janelas do ano, galeria de mapas, subíndices e ranking','Índice do calor (E1 a E4) e classes; painel de estresse térmico','Primeiras páginas dos eixos de risco (degradação, lazer, momentos)']},
+ {v:'pre',d:'20/10/2026',t:'grupos e atlas do calor',i:['Comparação entre períodos (habitual, pré-onda, onda, pós-onda, radiação, úmido)','Atlas de Tmrt, UTCI, PET e sombra (degradê e relativo); evolução da onda']},
+ {v:'pre',d:'19/10/2026',t:'conforto térmico',i:['Dados horários do INMET A009 (2025) e dias extremos','Painel de conforto térmico','Prévias do SOLWEIG na onda de calor (Tmrt, UTCI, PET, sombra), noites e persistência']},
+ {v:'pre',d:'18/10/2026',t:'relações',i:['Painel de relações entre variáveis: sankey, aluvial, acordes, rede, dendrograma, MDS e transecto','Pranchas dos eixos água e vegetação']}];
+
 const PROXIMAS=['Recalcular a prioridade das SbN com o novo domínio do lazer','Mapa de colunas também para as ameaças, os riscos e os componentes','Revisão geral de todas as abas depois das últimas mudanças no 3D'];
 const versaoBadge=()=>`<div style="display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;margin:4px 0 14px;padding:8px 12px;border:1px solid #ddd;border-radius:8px;background:var(--surface,#fff);font-size:13px"><b>Versão ${VERSAO.n}</b><span>atualizada em ${VERSAO.d} às ${VERSAO.h}</span><span class="muted">${CHANGELOG[0].t}</span><a href="#home-log" onclick="EX='home';ST='log';render();return false" style="margin-left:auto">ver todas as atualizações →</a></div>`;
-function homeLog(){add(`<section><h2>Atualizações</h2><p class="q">O que mudou em cada versão do site, da mais recente para a mais antiga, e o que vem a seguir. Os horários são de Palmas (UTC−3).</p>${versaoBadge().replace(/<a [^>]*>.*?<\/a>/,'')}
+function homeLog(){add(`<section><h2>Atualizações</h2><p class="q">O que mudou em cada versão do site, da mais recente para a mais antiga, e o que vem a seguir. Os horários são de Palmas (UTC−3). As versões 1 a 40 e o trabalho anterior ao site (18 a 21/10) foram descritos a partir dos arquivos de trabalho e do histórico de publicação.</p>${versaoBadge().replace(/<a [^>]*>.*?<\/a>/,'')}
  <div class="card"><h3 style="margin-top:0">Próximas</h3><ul>${PROXIMAS.map(p=>`<li>${p}</li>`).join('')}</ul></div>
- ${CHANGELOG.map(c=>`<div class="card" style="margin-top:10px"><div style="display:flex;gap:10px;align-items:baseline;flex-wrap:wrap"><b style="font-size:15px">${c.v?'Versão '+c.v:'Antes da versão 41'}</b><span class="muted" style="font-size:12px">${c.d}</span><span style="font-weight:600">${c.t}</span></div><ul style="margin:6px 0 0">${c.i.map(x=>`<li>${x}</li>`).join('')}</ul></div>`).join('')}</section>`)}
+ ${CHANGELOG.map(c=>`<div class="card" style="margin-top:10px"><div style="display:flex;gap:10px;align-items:baseline;flex-wrap:wrap"><b style="font-size:15px">${c.v==='pre'?'Antes do site':'Versão '+c.v}</b><span class="muted" style="font-size:12px">${c.d}</span><span style="font-weight:600">${c.t}</span></div><ul style="margin:6px 0 0">${c.i.map(x=>`<li>${x}</li>`).join('')}</ul></div>`).join('')}</section>`)}
 
 const RH={log:homeLog,sobre:async()=>{add(versaoBadge());await homeSobre();dadosEntrada()},ter:()=>t3Sec('home','A bacia do Córrego Taquari em 3D: relevo das curvas de 1 m (células de 60 m) com bairros, setores censitários ou bacias de contribuição por cima. Gire, aproxime e passe o mouse para ver os nomes.'),ref:homeRef};
 
