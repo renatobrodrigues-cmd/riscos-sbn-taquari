@@ -301,7 +301,7 @@ html.foco .vbar,html.foco #vtabs,html.foco #vhead,html.foco #foot,html.foco .vsu
 .mlq{display:flex;flex-wrap:wrap;gap:4px;margin:8px 0}.mlq button{font:400 10.5px var(--f-mono);letter-spacing:.04em;border:1px solid var(--line);background:var(--bg);color:var(--fg);padding:3px 7px;cursor:pointer}.mlq button:hover{background:var(--fg);color:var(--bg)}
 .mih2{font:600 10.5px var(--f-mono);letter-spacing:.1em;text-transform:uppercase;margin:12px 0 4px;display:flex;gap:6px;align-items:center}.mih2::after{content:'';flex:1;border-top:1px solid var(--line)}
 .mkpi{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;margin:6px 0}.mkpi div{border:1px solid var(--line);padding:5px 6px}.mkpi b{display:block;font:400 17px var(--f-serif,serif)}.mkpi span{font-size:10.5px;color:var(--muted)}
-.msbn{display:grid;grid-template-columns:22px 1fr 60px 34px;gap:6px;align-items:center;font-size:12px;padding:2px 0;cursor:pointer}.msbn:hover{background:color-mix(in srgb,var(--fg) 6%,transparent)}.vlangn{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);z-index:500;background:var(--fg);color:var(--bg);padding:8px 14px;font:400 12px var(--f-mono)}#vlangb{font:600 10.5px var(--f-mono);letter-spacing:.06em;min-width:30px}</style>
+.msbn{display:grid;grid-template-columns:22px 1fr 60px 34px;gap:6px;align-items:center;font-size:12px;padding:2px 0;cursor:pointer}.msbn:hover{background:color-mix(in srgb,var(--fg) 6%,transparent)}.vlangn{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);z-index:500;background:var(--fg);color:var(--bg);padding:8px 14px;font:400 12px var(--f-mono)}#vlangb{font:600 10.5px var(--f-mono);letter-spacing:.06em;min-width:30px}.mvt{font:500 11px var(--f-mono);letter-spacing:.06em;text-transform:uppercase;margin:0 0 4px;display:flex;gap:6px;align-items:center}</style>
 </head><body>
 <div class="wrap">
 <header>
@@ -1569,9 +1569,10 @@ async function homeRef(){const R=[
  ['Dados',[['INMET – estação automática A009 Palmas, 2025.','Temperatura, umidade e chuva horárias.'],['IBGE – Censo Demográfico 2022, agregados por setor censitário.',''],['IBGE – BDiA Pedologia 1:250.000.',''],['MapBiomas – Coleção 9 (1985–2023) e MapBiomas Fogo.',''],['SGB/CPRM – SIAGAS, poços tubulares.',''],['Overture Maps Foundation e OpenStreetMap.','Edificações e uso do solo.'],['Procedimentos do autor (scripts s1–s23 em QGIS/GDAL/GRASS).','MDE das curvas de 1 m, manchas de inundação (IDF recalibrada), diagnósticos e pontos de validação.']]]];
  add(`<section><h2>Referências e fontes</h2>${R.map(([g,L])=>`<h3>${g}</h3><ul class="refs">${L.map(([a,b])=>`<li>${a}${b?`<br><span class="src">${b}</span>`:''}</li>`).join('')}</ul>`).join('')}</section>`)}
 /* ================= VERSÃO E ATUALIZAÇÕES ================= */
-const VERSAO={n:'2.13.2',d:'02/11/2026',h:'05:30'};
+const VERSAO={n:'2.13.3',d:'02/11/2026',h:'05:30'};
 const CHANGELOG=[
- {v:'2.13.2',d:'02/11/2026 15:45',t:'Mais conceitos no passar do mouse',i:['O glossário que aparece ao passar o mouse nos termos sublinhados passou de 30 para 70 conceitos: momentos da água, fitofisionomias, subeixo, setor censitário, bacia de contribuição, curva-chave, Manning, método racional, Gi*, ρ, p5–p95, mediana, agrupamento hierárquico, transecto, bivariado, satélites e tipos de SbN, entre outros']},
+ {v:'2.13.3',d:'02/11/2026 16:00',t:'Painel de múltiplas vistas',i:['Riscos › Resultados › Gráficos: os oito mapas de risco lado a lado, ligados — o mesmo lugar fica marcado em todos e a janela mostra os oito valores; clique leva ao mapa interativo']},
+{v:'2.13.2',d:'02/11/2026 15:45',t:'Mais conceitos no passar do mouse',i:['O glossário que aparece ao passar o mouse nos termos sublinhados passou de 30 para 70 conceitos: momentos da água, fitofisionomias, subeixo, setor censitário, bacia de contribuição, curva-chave, Manning, método racional, Gi*, ρ, p5–p95, mediana, agrupamento hierárquico, transecto, bivariado, satélites e tipos de SbN, entre outros']},
 {v:'2.13.1',d:'02/11/2026 15:30',t:'Mapas horários do calor nas cores do site',i:['As 36 pranchas horárias do painel do calor (UTCI, Tmrt e PET, em degradê e relativo, nos seis cenários) saíram do azul → vermelho: degradê em lilás claro → laranja → vinho, relativo em verde (mais fresco) → vinho (mais quente); legendas e textos atualizados']},
 {v:'2.13',d:'02/11/2026 15:00',t:'Idioma da interface',i:['Botão PT/EN/ES no topo: menus, abas, botões, painéis do mapa, rodapé e títulos dos gráficos em inglês ou espanhol; os textos longos seguem em português (aviso na primeira troca). A escolha fica guardada no navegador.']},
 {v:'2.12.1',d:'02/11/2026 14:40',t:'Momentos em 5 m no mapa interativo',i:['Nova camada Momentos da água › Momento da água em 5 m (detalhe): a grade de 5 m em que o modelo roda, com ruas, edificações e transições finas, alinhada à grade de 20 m e com recorte']},
@@ -3974,7 +3975,7 @@ function xRiskTab(){const S=D.setores.filter(s=>s.ok!==false),R=D2.set.r;const r
 async function xExtra(ex,k){try{
  if(ex==='cal'&&k==='pan'){calCalendar();calSpiral()}
  if(ex==='veg'&&k==='rel')vegStream();
- if(ex==='ris'&&k==='gst')risRidge();
+ if(ex==='ris'&&k==='gst'){await risMulti();risRidge()}
  if(ex==='ris'&&k==='cor'){risCorr();risCluster()}
  if(ex==='ris'&&k==='flor'){risStars();risRadial()}
 }catch(e){console.warn('gráfico extra',e)}}
@@ -3998,6 +3999,18 @@ function vegStream(){const mb=D2.tempo&&D2.tempo.mb&&D2.tempo.mb.anos;if(!mb)ret
  sv.append('g').selectAll('path').data(st).join('path').attr('d',d3.area().x(d=>x(d.data.y)).y0(d=>y(d[0])).y1(d=>y(d[1])).curve(d3.curveBasis)).attr('fill',s=>(L[s.key]||['Classe '+s.key,'#999'])[1]).attr('stroke','var(--bg)').attr('stroke-width',.5).on('mousemove',(ev,s)=>{const yy=Math.round(x.invert(d3.pointer(ev)[0])),Y=yrs.reduce((a,b)=>Math.abs(b-yy)<Math.abs(a-yy)?b:a);showTip(ev,`<b>${(L[s.key]||['Classe '+s.key])[0]}</b><br>${Y}: ${d3.format(',.0f')(mb[Y][s.key]||0).replace(/,/g,'.')} ha`)}).on('mouseleave',hideTip);
  sv.append('g').attr('transform',`translate(0,${Hh-m.b+4})`).call(d3.axisBottom(x).tickFormat(d3.format('d')).ticks(8));
  const lg=d3.select(el).append('div').attr('class','legend');ks.forEach(k=>lg.append('span').html(`<i class="dot" style="background:${(L[k]||[0,'#999'])[1]}"></i>${(L[k]||['Classe '+k])[0]}`))}
+
+
+/* painel de múltiplas vistas: os 8 riscos lado a lado, com o mesmo ponto marcado em todos */
+async function risMulti(){const el=xSec('Painel de múltiplas vistas','Os oito mapas de risco lado a lado, na mesma escala. Passe o mouse num deles: o mesmo lugar fica marcado em todos e a janela mostra os oito valores de uma vez. Clique para levar o lugar ao mapa interativo.','xmul');
+ const L={};for(const e of ALLE)L[e]=FIXB.includes(e)?await rkZ(e):await getL('r_'+e);const cols=4;el.style.overflow='visible';const W=XC.W('xmul'),cw=Math.floor((W-(cols-1)*8)/cols),ch=Math.round(cw*GH/GW);
+ el.innerHTML=`<div class="mvg" style="display:grid;grid-template-columns:repeat(${cols},${cw}px);gap:8px">${ALLE.map(e=>`<div class="mvc"><div class="mvt"><i class="dot" style="background:${EC[e]}"></i>${NAME[e]}</div><div style="position:relative"><canvas data-e="${e}" width="${GW}" height="${GH}" style="width:${cw}px;height:${ch}px;image-rendering:pixelated;display:block"></canvas><canvas class="mvx" width="${cw}" height="${ch}" style="position:absolute;left:0;top:0;pointer-events:none"></canvas></div></div>`).join('')}</div>`;
+ el.querySelectorAll('canvas[data-e]').forEach(cv=>{const e=cv.dataset.e,a=L[e],x=cv.getContext('2d'),im=x.createImageData(GW,GH),rp=TABRAMP(EC[e]);for(let i=0;i<GW*GH;i++){if(!MASK[i])continue;const v=a[i];const c=d3.rgb(v===255?'#eeeeee':rp(.04+.96*v/254));im.data[i*4]=c.r;im.data[i*4+1]=c.g;im.data[i*4+2]=c.b;im.data[i*4+3]=255}x.putImageData(im,0,0);
+  cv.onmousemove=ev=>{const r=cv.getBoundingClientRect(),gx=Math.floor((ev.clientX-r.left)/r.width*GW),gy=Math.floor((ev.clientY-r.top)/r.height*GH),i=gy*GW+gx;el.querySelectorAll('.mvx').forEach(o=>{const c=o.getContext('2d');c.clearRect(0,0,o.width,o.height);if(!MASK[i])return;const px=(gx+.5)/GW*o.width,py=(gy+.5)/GH*o.height;c.strokeStyle='#111';c.lineWidth=1;c.beginPath();c.moveTo(px-9,py);c.lineTo(px+9,py);c.moveTo(px,py-9);c.lineTo(px,py+9);c.stroke();c.strokeStyle='#fff';c.strokeRect(px-3,py-3,6,6)});
+   if(!MASK[i]){hideTip();return}showTip(ev,`<table class="mat" style="margin:0;color:inherit">${ALLE.map(f=>{const v=L[f][i];return `<tr><td style="padding:1px 8px 1px 0;border:0"><span style="color:${EC[f]}">■</span> ${NAME[f]}</td><td style="padding:1px 0;border:0;text-align:right"><b>${v===255?'—':c2(v/254)}</b></td></tr>`}).join('')}</table>`)};
+  cv.onmouseleave=()=>{hideTip();el.querySelectorAll('.mvx').forEach(o=>o.getContext('2d').clearRect(0,0,o.width,o.height))};
+  cv.onclick=ev=>{const r=cv.getBoundingClientRect();window.__miPick='r_'+e;goTo('mapa','mapa')};cv.style.cursor='crosshair'})}
+
 /* ridgeline: distribuição do risco nos setores, uma crista por ameaça */
 function risRidge(){const {rows}=xRiskTab(),el=xSec('As oito distribuições, lado a lado','Cada crista mostra como o risco se distribui entre os setores censitários: uma crista alta à direita quer dizer muitos setores com risco alto. Dá para comparar de uma vez qual ameaça pesa em muita gente e qual se concentra em poucos lugares.','xrid');
  const W=XC.W('xrid'),rh=46,Hh=ALLE.length*rh+60,m={l:170,r:20},sv=d3.select(el).append('svg').attr('width',W).attr('height',Hh),x=d3.scaleLinear([0,1],[m.l,W-m.r]),bins=d3.range(0,1.0001,.04);
