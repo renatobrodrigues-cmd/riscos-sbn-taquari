@@ -1,5 +1,5 @@
 <!doctype html>
-<meta charset="utf-8"><meta name="author" content="Renato Bezerra Rodrigues">
+<meta charset="utf-8">
 <title>Estresse Térmico no Taquari</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -247,7 +247,7 @@ input[type=range]{width:min(360px,60vw);accent-color:var(--accent)}
 <div class="card mapcard cmpw"><div class="cmpbox" id="cmpO"><canvas id="cmpA"></canvas><canvas id="cmpB"></canvas><div class="cmpl" id="cmpL"></div></div></div></section>
 <section><h2>O ano e as janelas</h2><div class="card" id="ano-a"></div><div class="legend" id="ano-a-leg"></div><div class="card tw"><table class="deft" id="jan-ta"></table></div></section>
 <section><h2>Mapas de todos os dias e horários</h2>
-<p class="q">Cada prancha mostra todos os dias do recorte (linhas) e os 12 horários simulados (colunas), em células de 20 m. Absoluto: azul → branco → vermelho com branco no limiar do índice. Relativo: diferença para a mediana da bacia naquela hora.</p>
+<p class="q">Cada prancha mostra todos os dias do recorte (linhas) e os 12 horários simulados (colunas), em células de 20 m. Absoluto: lilás claro → laranja → vinho, do mais fresco ao mais quente. Relativo: diferença para a mediana da bacia naquela hora.</p>
 <div class="controls"><span>Recorte</span><div class="seg" id="at-g"></div></div>
 <div class="controls"><span>Variável</span><div class="seg" id="at-v"><button data-k="utci" aria-pressed="true">UTCI</button><button data-k="pet">PET</button><button data-k="tmrt">Tmrt</button><button data-k="sombra">Sombra</button></div><div class="seg" id="at-m"><button data-k="degrade" aria-pressed="true">Absoluto</button><button data-k="relativo">Relativo</button></div></div>
 <div class="card atl" id="at-box"></div><p class="read" id="at-read"></p></section>
@@ -732,7 +732,7 @@ function janelas(id,tid){const el=document.getElementById(id);el.innerHTML='';co
 let atg='onda',atv='utci',atm='degrade';
 function atlas_old(){if(!document.getElementById('at-g').children.length)segFill('at-g',D.janelas.map(j=>[j.k,j.n]),'onda',k=>{atg=k;atimg()});atimg();aeix()}
 function atimg_old(){const f=atv==='sombra'?`atlas/g_${atg}_sombra.webp`:`atlas/g_${atg}_${atv}_${atm}.webp`;document.getElementById('at-img').src=f;document.getElementById('at-img').alt=`${GN[atg]} · ${atv}`;
- const j=D.janelas.find(j=>j.k===atg);document.getElementById('at-read').textContent=`${j.n}: ${j.ini}${j.nd>1?' a '+j.fim:''}, ${j.nd} ${j.nd>1?'dias':'dia'}. ${atv==='sombra'?'A sombra só aparece nas horas com sol (8h às 18h).':atm==='relativo'?'No modo relativo, os lugares mais frescos que a bacia aparecem em azul e os mais quentes em vermelho, hora a hora.':'Clique na imagem para abrir em tamanho real.'}`;
+ const j=D.janelas.find(j=>j.k===atg);document.getElementById('at-read').textContent=`${j.n}: ${j.ini}${j.nd>1?' a '+j.fim:''}, ${j.nd} ${j.nd>1?'dias':'dia'}. ${atv==='sombra'?'A sombra só aparece nas horas com sol (8h às 18h).':atm==='relativo'?'No modo relativo, os lugares mais frescos que a bacia aparecem em verde e os mais quentes em vinho, hora a hora.':'Clique na imagem para abrir em tamanho real.'}`;
  document.getElementById('at-img').onclick=()=>window.open(f,'_blank')}
 seg('at-v',k=>{atv=k;atimg()});seg('at-m',k=>{atm=k;atimg()});
 let aem='all';
@@ -1103,7 +1103,7 @@ function atlas(){if(!document.getElementById('at-g').children.length)segFill('at
 function atimg(){const ks=atgE==='ep'?['pre','onda','pos']:[atgE];const box=document.getElementById('at-box');box.innerHTML='';
  ks.forEach(k=>{const f=atv==='sombra'?`atlas/g_${k}_sombra.webp`:`atlas/g_${k}_${atv}_${atm}.webp`;const j=D.janelas.find(j=>j.k===k);if(ks.length>1){const h=document.createElement('div');h.className='atlh';h.style.borderLeftColor=GC[k];h.innerHTML=`<b style="color:${GC[k]}">${{pre:'Antes',onda:'Onda de calor',pos:'Depois'}[k]}</b> <span class="muted">${j.ini}${j.nd>1?' a '+j.fim:''} · ${j.nd} dias</span>`;box.appendChild(h)}
   const im=document.createElement('img');im.src=f;im.alt=`${GN[k]} · ${atv}`;im.onclick=()=>window.open(f,'_blank');box.appendChild(im)});
- const j=atgE==='ep'?null:D.janelas.find(j=>j.k===atgE);document.getElementById('at-read').textContent=(atgE==='ep'?'Episódio da onda: 26/09 a 10/10, 15 dias seguidos, lidos de cima para baixo (3 dias de entrada, os 9 da onda e 3 de saída). ':`${j.n}: ${j.ini} a ${j.fim}, ${j.nd} dias. `)+(atv==='sombra'?'A sombra só aparece nas horas com sol (8h às 18h).':atm==='relativo'?'No modo relativo, os lugares mais frescos que a bacia aparecem em azul e os mais quentes em vermelho, hora a hora.':'Clique numa prancha para abrir em tamanho real.')}
+ const j=atgE==='ep'?null:D.janelas.find(j=>j.k===atgE);document.getElementById('at-read').textContent=(atgE==='ep'?'Episódio da onda: 26/09 a 10/10, 15 dias seguidos, lidos de cima para baixo (3 dias de entrada, os 9 da onda e 3 de saída). ':`${j.n}: ${j.ini} a ${j.fim}, ${j.nd} dias. `)+(atv==='sombra'?'A sombra só aparece nas horas com sol (8h às 18h).':atm==='relativo'?'No modo relativo, os lugares mais frescos que a bacia aparecem em verde e os mais quentes em vinho, hora a hora.':'Clique numa prancha para abrir em tamanho real.')}
 
 
 function epiBr(svg,x,y0,y1,vert){const g=svg.append('g');const c='#b2182b';if(vert){g.append('path').attr('d',`M${x+6},${y0+2}H${x}V${y1-2}H${x+6}`).attr('fill','none').attr('stroke',c).attr('stroke-width',1.6);g.append('text').attr('transform',`translate(${x-5},${(y0+y1)/2}) rotate(-90)`).attr('text-anchor','middle').style('font-size','10px').style('font-weight',700).style('fill',c).text('Episódio da onda')}else{g.append('path').attr('d',`M${y0+2},${x+6}V${x}H${y1-2}V${x+6}`).attr('fill','none').attr('stroke',c).attr('stroke-width',1.6);g.append('text').attr('x',(y0+y1)/2).attr('y',x-5).attr('text-anchor','middle').style('font-size','11px').style('font-weight',700).style('fill',c).text('Episódio da onda · 26/09 a 10/10 (15 dias contínuos)')}}
