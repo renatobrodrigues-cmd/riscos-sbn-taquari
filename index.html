@@ -268,7 +268,7 @@ html.neon .js-plotly-plot{filter:saturate(1.5) brightness(1.1)}
 .mfd{padding:12px 16px;margin-top:6px}
 
 /* mapa interativo · ajustes 2.6 */
-.miv{background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:32px 32px;background-position:-1px -1px}
+
 html.lite .miv{background-image:none}
 .mif.mfull{position:fixed;inset:0;z-index:250;background:var(--bg);margin:0!important;width:auto!important;padding:10px;overflow:auto}
 .mif.mfull .miv{height:calc(100vh - 150px)!important}
@@ -1569,9 +1569,10 @@ async function homeRef(){const R=[
  ['Dados',[['INMET – estação automática A009 Palmas, 2025.','Temperatura, umidade e chuva horárias.'],['IBGE – Censo Demográfico 2022, agregados por setor censitário.',''],['IBGE – BDiA Pedologia 1:250.000.',''],['MapBiomas – Coleção 9 (1985–2023) e MapBiomas Fogo.',''],['SGB/CPRM – SIAGAS, poços tubulares.',''],['Overture Maps Foundation e OpenStreetMap.','Edificações e uso do solo.'],['Procedimentos do autor (scripts s1–s23 em QGIS/GDAL/GRASS).','MDE das curvas de 1 m, manchas de inundação (IDF recalibrada), diagnósticos e pontos de validação.']]]];
  add(`<section><h2>Referências e fontes</h2>${R.map(([g,L])=>`<h3>${g}</h3><ul class="refs">${L.map(([a,b])=>`<li>${a}${b?`<br><span class="src">${b}</span>`:''}</li>`).join('')}</ul>`).join('')}</section>`)}
 /* ================= VERSÃO E ATUALIZAÇÕES ================= */
-const VERSAO={n:'2.13.3',d:'02/11/2026',h:'05:30'};
+const VERSAO={n:'2.13.4',d:'02/11/2026',h:'05:30'};
 const CHANGELOG=[
- {v:'2.13.3',d:'02/11/2026 16:00',t:'Painel de múltiplas vistas',i:['Riscos › Resultados › Gráficos: os oito mapas de risco lado a lado, ligados — o mesmo lugar fica marcado em todos e a janela mostra os oito valores; clique leva ao mapa interativo']},
+ {v:'2.13.4',d:'02/11/2026 16:10',t:'Grade desliga de verdade',i:['Correção: a grade fixa antiga continuava por baixo; agora desmarcar “Grade (500 m)” some com toda a grade']},
+{v:'2.13.3',d:'02/11/2026 16:00',t:'Painel de múltiplas vistas',i:['Riscos › Resultados › Gráficos: os oito mapas de risco lado a lado, ligados — o mesmo lugar fica marcado em todos e a janela mostra os oito valores; clique leva ao mapa interativo']},
 {v:'2.13.2',d:'02/11/2026 15:45',t:'Mais conceitos no passar do mouse',i:['O glossário que aparece ao passar o mouse nos termos sublinhados passou de 30 para 70 conceitos: momentos da água, fitofisionomias, subeixo, setor censitário, bacia de contribuição, curva-chave, Manning, método racional, Gi*, ρ, p5–p95, mediana, agrupamento hierárquico, transecto, bivariado, satélites e tipos de SbN, entre outros']},
 {v:'2.13.1',d:'02/11/2026 15:30',t:'Mapas horários do calor nas cores do site',i:['As 36 pranchas horárias do painel do calor (UTCI, Tmrt e PET, em degradê e relativo, nos seis cenários) saíram do azul → vermelho: degradê em lilás claro → laranja → vinho, relativo em verde (mais fresco) → vinho (mais quente); legendas e textos atualizados']},
 {v:'2.13',d:'02/11/2026 15:00',t:'Idioma da interface',i:['Botão PT/EN/ES no topo: menus, abas, botões, painéis do mapa, rodapé e títulos dos gráficos em inglês ou espanhol; os textos longos seguem em português (aviso na primeira troca). A escolha fica guardada no navegador.']},
