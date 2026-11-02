@@ -1569,9 +1569,10 @@ async function homeRef(){const R=[
  ['Dados',[['INMET – estação automática A009 Palmas, 2025.','Temperatura, umidade e chuva horárias.'],['IBGE – Censo Demográfico 2022, agregados por setor censitário.',''],['IBGE – BDiA Pedologia 1:250.000.',''],['MapBiomas – Coleção 9 (1985–2023) e MapBiomas Fogo.',''],['SGB/CPRM – SIAGAS, poços tubulares.',''],['Overture Maps Foundation e OpenStreetMap.','Edificações e uso do solo.'],['Procedimentos do autor (scripts s1–s23 em QGIS/GDAL/GRASS).','MDE das curvas de 1 m, manchas de inundação (IDF recalibrada), diagnósticos e pontos de validação.']]]];
  add(`<section><h2>Referências e fontes</h2>${R.map(([g,L])=>`<h3>${g}</h3><ul class="refs">${L.map(([a,b])=>`<li>${a}${b?`<br><span class="src">${b}</span>`:''}</li>`).join('')}</ul>`).join('')}</section>`)}
 /* ================= VERSÃO E ATUALIZAÇÕES ================= */
-const VERSAO={n:'2.14.2',d:'02/11/2026',h:'05:30'};
+const VERSAO={n:'2.14.3',d:'02/11/2026',h:'05:30'};
 const CHANGELOG=[
- {v:'2.14.2',d:'02/11/2026 17:30',t:'Gráficos no estilo sempre-viva',i:['Mapa interativo e Explorar a camada: barras viram hastes pontilhadas de capim com o capítulo da sempre-viva na ponta; o histograma vira um campo de sempre-vivas (uma haste por faixa, a altura é a área)']},
+ {v:'2.14.3',d:'02/11/2026 17:50',t:'A chuva em streamgraph',i:['Enxurrada, alagamento e inundação › Resultados (e o Explorar a camada dessas ameaças): a chuva do ano semana a semana em streamgraph, separada pela força da chuva do dia']},
+{v:'2.14.2',d:'02/11/2026 17:30',t:'Gráficos no estilo sempre-viva',i:['Mapa interativo e Explorar a camada: barras viram hastes pontilhadas de capim com o capítulo da sempre-viva na ponta; o histograma vira um campo de sempre-vivas (uma haste por faixa, a altura é a área)']},
 {v:'2.14.1',d:'02/11/2026 17:10',t:'Ícones no lugar dos desenhos',i:['Rich picture (Gráficos estatísticos de cada aba): o centro vira o ícone em pixel da aba, cada quadro ganha o seu ícone e marcadores, e a casa, a pessoa e o córrego viram ícones','Esquema do relevo nas fichas das SbN: casa, vegetação e córrego em ícones de pixel','Perfil da encosta (Risco × fitofisionomia × momento): árvores, capim, buritis e córrego em ícones de pixel, sem o fundo bege']},
 {v:'2.14',d:'02/11/2026 16:50',t:'Explorar a camada, embaixo do mapa',i:['Mapa interativo: ao escolher uma camada, aparece embaixo uma continuação com perguntas e gráficos daquele dado — como se distribui, onde é mais alto (bairros e bacias), quem mora lá (setores: valor × vulnerabilidade × moradores), anda junto com o quê (correlação com riscos, exposição e vulnerabilidade), de onde vem (subeixos, pesos e variáveis), a família lado a lado (vistas ligadas), que SbN ajudam e, no calor e na vegetação, o tempo','O painel de múltiplas vistas saiu de Riscos e virou parte desta continuação']},
 {v:'2.13.5',d:'02/11/2026 16:20',t:'Capa sempre animada',i:['A capa anima sempre (mesmo com o modo leve ligado), com balanço das sempre-vivas e do capim mais visível, capítulos que respiram e mais pulsos correndo nas ligações']},
@@ -2337,7 +2338,7 @@ async function homeMapa(){const CAT0=miCatalog();window.MI_T3=CAT0.filter(x=>x.s
     ${e&&D2.fahp[e]?sec('De onde vem?',`Os subeixos de ${NAME[e].toLowerCase()} e o peso de cada um no índice (FAHP); embaixo, as variáveis de cada subeixo.`,'mx5'):''}
     ${fam.length>1?sec(`A família de ${x.g.toLowerCase()} lado a lado`,'As camadas do mesmo grupo, na mesma grade. Passe o mouse para marcar o mesmo lugar em todas; clique para abrir a camada no mapa.','mx6'):''}
     ${e?sec('Que SbN ajudam?',`As soluções do catálogo que respondem a ${NAME[e].toLowerCase()}, pela força do efeito. Clique para ver onde cada uma cabe.`,'mx7'):''}
-    ${e==='cal'||x.g==='Paisagem'||/Fitofision/.test(x.g)?'<div id="mx8"></div>':''}`;
+    ${e==='cal'||['enx','ala','inu'].includes(e)||x.g==='Paisagem'||/Fitofision/.test(x.g)?'<div id="mx8"></div>':''}`;
    /* 1. distribuição */
    {const el=document.getElementById('mx1'),H=150;if(S){const vv=S.s,bins=d3.bin().domain([S.lo,S.hi]).thresholds(40)(vv.filter(y=>y>=S.lo&&y<=S.hi)),mx=d3.max(bins,b=>b.length)||1,xs=d3.scaleLinear([S.lo,S.hi],[30,W-10]);
      el.innerHTML=`<svg width="${W}" height="${H+30}">${bins.map(b=>{const cx=(xs(b.x0)+xs(b.x1))/2,cy=H-b.length/mx*(H-16),cc=x.ramp(.06+.94*S.T((b.x0+b.x1)/2));return `<g><title>${x.fmt(b.x0)} a ${x.fmt(b.x1)}: ${f0(b.length*3*.04)} ha</title><line x1="${cx}" y1="${H}" x2="${cx}" y2="${cy}" stroke="${cc}" stroke-width="1.1"/>${b.length?svFlor(cx,cy,cc,Math.min(3.6,(xs(b.x1)-xs(b.x0))/5)):''}<rect x="${xs(b.x0)}" y="0" width="${xs(b.x1)-xs(b.x0)}" height="${H}" fill="transparent"/></g>`}).join('')}${[[.1,'10%'],[.5,'mediana'],[.9,'90%']].map(([q,n])=>{const v=d3.quantileSorted(vv,q);return `<line x1="${xs(v)}" x2="${xs(v)}" y1="0" y2="${H}" stroke="var(--fg)" stroke-dasharray="${q===.5?'':'3 3'}"/><text x="${xs(v)+3}" y="10" font-size="10">${n} ${x.fmt(v)}</text>`}).join('')}<text x="30" y="${H+16}" font-size="10">${x.fmt(S.lo)}</text><text x="${W-10}" y="${H+16}" font-size="10" text-anchor="end">${x.fmt(S.hi)}</text></svg>`}
@@ -2368,7 +2369,7 @@ async function homeMapa(){const CAT0=miCatalog();window.MI_T3=CAT0.filter(x=>x.s
    /* 7. SbN que ajudam */
    if(e&&document.getElementById('mx7')){const el=document.getElementById('mx7'),T=CATL.filter(c=>(c.eff||{})[e]>0).sort((a,b)=>(b.eff[e]-a.eff[e])||a.n.localeCompare(b.n)).slice(0,16);el.innerHTML=T.length?`<div class="mxsbn">${T.map(c=>`<div class="msbn" data-t="${c.id}">${sbnIco(c.id,null,18)}<span>${c.n}<br><span class="muted" style="font-size:11px">${FAMN[c.fam]}${c.custo?' · custo '+c.custo.toLowerCase():''}</span></span>${bar(c.eff[e],FAMC[c.fam])}<span class="muted">${c.eff[e]>=1?'forte':c.eff[e]>=.5?'médio':'fraco'}</span></div>`).join('')}</div>`:'<p class="muted">Nenhuma SbN do catálogo responde diretamente a esta ameaça.</p>';el.querySelectorAll('.msbn').forEach(d=>d.onclick=()=>pickL('st_'+d.dataset.t))}
    /* 8. tempo */
-   const t8=document.getElementById('mx8');if(t8){window.__XT=t8;try{if(e==='cal'){calCalendar();calSpiral()}else vegStream()}finally{window.__XT=null}}};
+   const t8=document.getElementById('mx8');if(t8){window.__XT=t8;try{if(e==='cal'){calCalendar();calSpiral()}else if(['enx','ala','inu'].includes(e))chuvaStream(e);else vegStream()}finally{window.__XT=null}}};
   const pickL=id=>{const r=document.querySelector(`input[name=mil][value="${id}"]`);if(r){r.checked=true;r.dispatchEvent(new Event('change',{bubbles:true}))}else{st.A=id;draw()}document.getElementById('mif').scrollIntoView({behavior:'smooth'})};
   window.__mExp=()=>{clearTimeout(XT);XT=setTimeout(()=>run().catch(e=>console.warn('explorar',e)),500)}}
 
@@ -4038,6 +4039,7 @@ function xRiskTab(){const S=D.setores.filter(s=>s.ok!==false),R=D2.set.r;const r
 async function xExtra(ex,k){try{
  if(ex==='cal'&&k==='pan'){calCalendar();calSpiral()}
  if(ex==='veg'&&k==='rel')vegStream();
+ if(['enx','ala','inu'].includes(ex)&&k==='pan')chuvaStream(ex);
  if(ex==='ris'&&k==='gst')risRidge();
  if(ex==='ris'&&k==='cor'){risCorr();risCluster()}
  if(ex==='ris'&&k==='flor'){risStars();risRadial()}
@@ -4073,6 +4075,16 @@ async function risMulti(){const el=xSec('Painel de múltiplas vistas','Os oito m
    if(!MASK[i]){hideTip();return}showTip(ev,`<table class="mat" style="margin:0;color:inherit">${ALLE.map(f=>{const v=L[f][i];return `<tr><td style="padding:1px 8px 1px 0;border:0"><span style="color:${EC[f]}">■</span> ${NAME[f]}</td><td style="padding:1px 0;border:0;text-align:right"><b>${v===255?'—':c2(v/254)}</b></td></tr>`}).join('')}</table>`)};
   cv.onmouseleave=()=>{hideTip();el.querySelectorAll('.mvx').forEach(o=>o.getContext('2d').clearRect(0,0,o.width,o.height))};
   cv.onclick=ev=>{const r=cv.getBoundingClientRect();window.__miPick='r_'+e;goTo('mapa','mapa')};cv.style.cursor='crosshair'})}
+
+
+
+/* streamgraph da chuva: semana a semana, quanto choveu em cada faixa de intensidade diária */
+function chuvaStream(e){const T=D2.tempo;if(!T||!T.pr)return;const P=T.pr,K=[['fraca (< 10 mm/dia)',0,10],['moderada (10–25)',10,25],['forte (25–50)',25,50],['muito forte (≥ 50)',50,1e9]],n=Math.ceil(P.length/7),data=d3.range(n).map(w=>{const o={w};K.forEach((k,j)=>{o[j]=d3.sum(P.slice(w*7,w*7+7).filter(v=>v>=k[1]&&v<k[2]))});return o});
+ const el=xSec('A chuva do ano, semana a semana','Quanto choveu em cada semana da série do INMET (estação A009, Palmas), separado pela força da chuva do dia. A largura da faixa é a chuva da semana (mm). É nas faixas fortes e muito fortes, concentradas no período chuvoso, que '+(e==='enx'?'a enxurrada':e==='ala'?'o alagamento':'a cheia')+' acontece.','xchs');
+ const c=EC[e]||'#4F6EE6',cols=[.22,.45,.7,.95].map(u=>TABRAMP(c)(u)),W=XC.W('xchs'),H=300,m={l:40,r:10,t:10,b:28},st=d3.stack().keys([0,1,2,3]).offset(d3.stackOffsetSilhouette).order(d3.stackOrderNone)(data),x=d3.scaleLinear([0,n-1],[m.l,W-m.r]),y=d3.scaleLinear([d3.min(st,s=>d3.min(s,d=>d[0])),d3.max(st,s=>d3.max(s,d=>d[1]))],[H-m.b,m.t]);
+ const sv=d3.select(el).append('svg').attr('width',W).attr('height',H);sv.append('g').selectAll('path').data(st).join('path').attr('d',d3.area().x((d,i)=>x(i)).y0(d=>y(d[0])).y1(d=>y(d[1])).curve(d3.curveBasis)).attr('fill',(s,j)=>cols[j]).attr('stroke','var(--bg)').attr('stroke-width',.6).on('mousemove',(ev,s)=>{const w=Math.max(0,Math.min(n-1,Math.round(x.invert(d3.pointer(ev)[0]))));showTip(ev,`<b>semana ${w+1}</b><br>`+K.map((k,j)=>`${k[0]}: ${f0(data[w][j])} mm`).join('<br>')+`<br><b>total ${f0(d3.sum([0,1,2,3],j=>data[w][j]))} mm</b>`)}).on('mouseleave',hideTip);
+ sv.append('g').attr('transform',`translate(0,${H-m.b})`).call(d3.axisBottom(x).ticks(12).tickFormat(w=>'sem. '+(w+1)));
+ const lg=d3.select(el).append('div').attr('class','legend');K.forEach((k,j)=>lg.append('span').html(`<i class="dot" style="background:${cols[j]}"></i>${k[0]}`));d3.select(el).append('p').attr('class','muted').style('font-size','11px').text(`Total do ano: ${f0(d3.sum(P))} mm · dias com 50 mm ou mais: ${P.filter(v=>v>=50).length}`)}
 
 /* ridgeline: distribuição do risco nos setores, uma crista por ameaça */
 function risRidge(){const {rows}=xRiskTab(),el=xSec('As oito distribuições, lado a lado','Cada crista mostra como o risco se distribui entre os setores censitários: uma crista alta à direita quer dizer muitos setores com risco alto. Dá para comparar de uma vez qual ameaça pesa em muita gente e qual se concentra em poucos lugares.','xrid');
