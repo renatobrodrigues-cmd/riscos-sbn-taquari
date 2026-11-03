@@ -203,6 +203,14 @@ html.pausa #vsplash *,html.pausa #land *{animation-play-state:paused!important}#
  #main .card{overflow-x:auto}
 }
 .fprft{display:none}
+/* esqueleto: silhueta com brilho no lugar de cada gráfico, mapa ou tabela que ainda está carregando */
+@keyframes vskel{from{background-position:100% 0}to{background-position:-100% 0}}
+#main .card:empty,#main .card>div[id]:empty,#main .mxc:empty,#main .kpis:empty,#main canvas.map:not([width]),#main canvas.trth:not([width]),#main table[id]:empty{background:linear-gradient(90deg,color-mix(in srgb,var(--fg) 5%,transparent) 20%,color-mix(in srgb,var(--fg) 12%,transparent) 50%,color-mix(in srgb,var(--fg) 5%,transparent) 80%);background-size:200% 100%;animation:vskel 1.3s linear 7 both;border-radius:6px}
+#main .card:empty,#main .card>div[id]:empty,#main .mxc:empty{min-height:160px}
+#main .kpis:empty{min-height:70px}#main table[id]:empty{display:block;min-height:120px}
+#main canvas.map:not([width]){display:block;width:100%;aspect-ratio:476/462;height:auto}
+#main .card:has(>canvas.map:not([width])){background:none}
+@media (prefers-reduced-motion:reduce){#main .card:empty,#main .card>div[id]:empty,#main .mxc:empty,#main .kpis:empty,#main canvas.map:not([width]),#main canvas.trth:not([width]),#main table[id]:empty{animation:none}}
 .vlogo b{font-weight:700}.vlogo i{font-style:normal;font-weight:300}.vlogo .lo{transform:translateY(3px)}
 .vlogo small{font:400 10px var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:0 0 3px 14px}
 .vnav{display:flex;gap:2px;align-items:center;flex-wrap:wrap}
@@ -1620,9 +1628,10 @@ async function homeRef(){const R=[
  ['Dados',[['INMET – estação automática A009 Palmas, 2025.','Temperatura, umidade e chuva horárias.'],['IBGE – Censo Demográfico 2022, agregados por setor censitário.',''],['IBGE – BDiA Pedologia 1:250.000.',''],['MapBiomas – Coleção 9 (1985–2023) e MapBiomas Fogo.',''],['SGB/CPRM – SIAGAS, poços tubulares.',''],['Overture Maps Foundation e OpenStreetMap.','Edificações e uso do solo.'],['Procedimentos do autor (scripts s1–s23 em QGIS/GDAL/GRASS).','MDE das curvas de 1 m, manchas de inundação (IDF recalibrada), diagnósticos e pontos de validação.']]]];
  add(`<section><h2>Referências e fontes</h2>${R.map(([g,L])=>`<h3>${g}</h3><ul class="refs">${L.map(([a,b])=>`<li>${a}${b?`<br><span class="src">${b}</span>`:''}</li>`).join('')}</ul>`).join('')}</section>`)}
 /* ================= VERSÃO E ATUALIZAÇÕES ================= */
-const VERSAO={n:'2.28',d:'02/11/2026',h:'23:59'};
+const VERSAO={n:'2.29',d:'02/11/2026',h:'23:59'};
 const CHANGELOG=[
  {v:'2.16',d:'02/11/2026 21:00',t:'Rede de fluxos em 3D, como um campo de flores',i:['Rede de fluxos em 3D: cada centro é uma sempre-viva com haste saindo do chão, entre o capim; gira sozinha devagar, arrasta, aproxima e balança com o vento','Modos de ver: campo, importância (altura e tamanho pelo peso FAHP e pelas ligações), agrupar (por tipo) e bagunçar (embaralha o campo); transições suaves entre eles','Barra de detalhe: de só os centros até tudo, com todos os fios','Mais dados: pesos FAHP nos subeixos e variáveis, o risco de cada ameaça, os indicadores de exposição e vulnerabilidade ligados aos riscos com o peso de cada um, a validação de campo (pontos e AUC) e o momento da água de cada SbN; novos filtros de fios (pessoas, momentos, validação)','A versão 2D continua no botão 2D']},
+{v:'2.29',d:'03/11/2026 03:10',t:'Termo a cada entrada e esqueleto',i:['O termo de uso e responsabilidade aparece toda vez que o site é aberto, logo depois da capa, por qualquer caminho (iniciar, menu, entrar no mapa ou link direto); o aceite não fica mais guardado no navegador','Esqueleto de carregamento: gráficos, mapas, tabelas e números que ainda estão carregando aparecem como uma silhueta cinza com brilho, em vez de um espaço vazio']},
 {v:'2.28',d:'03/11/2026 03:00',t:'Autoria e marca d’água',i:['Todo PNG baixado (gráficos, mapas, atlas, 3D) sai com uma faixa de crédito: VƎRƎDA · Rodrigues (2026) · USP · CC BY-NC 4.0 · endereço · versão · data','Os PNG levam metadados de autoria (título, autor, copyright, licença, fonte, citação, versão e data) e uma marca d’água invisível (assinatura VEREDA|RBR|2026|USP nos pixels), que continua lá mesmo se recortarem a faixa','Todo CSV começa com uma linha de autoria, licença e endereço','Ficha em PDF: rodapé com crédito em todas as páginas e nome do arquivo com autoria e licença','Copiar um trecho longo do site leva junto a citação da fonte','Página com metadados de autoria e licença (Dublin Core, Google Acadêmico, schema.org) para buscadores reconhecerem a autoria','Correção: no site do GitHub os botões de baixar PNG e CSV não funcionavam; agora funcionam']},
 {v:'2.27',d:'03/11/2026 03:20',t:'Celular',i:['Nenhuma página rola mais para o lado no celular: tabelas e cartões largos rolam dentro deles','Ficha do bairro no celular: ocupa a largura da tela, em uma coluna, com mapas e tabelas ajustados (antes ficava com 870 px e cortava)','Página do iniciar: o topo (logo, menu e entrar no mapa) cabe na tela']},
 {v:'2.26',d:'03/11/2026 03:00',t:'Endereço de cada página',i:['Cada página tem seu endereço (ex.: …#enx-res para Enxurrada › Resultados): dá para copiar o link e mandar para alguém','O botão voltar e avançar do navegador funciona entre as páginas','Quem abre um link direto vê a capa e, ao clicar, vai direto para a página do link (sem passar pelo menu do iniciar); recarregar continua mostrando a capa']},
@@ -3937,7 +3946,7 @@ function sobreSys(){const area=(()=>{let n=0;for(let i=0;i<MASK.length;i++)if(MA
  </div></section>`)}
 function vModal(k){const TX={
  auto:['Autoria e equipe','<p><b>Renato Bezerra Rodrigues</b> · Universidade de São Paulo (USP), 2026 · <a href="mailto:renato.b.rodrigues@usp.br">renato.b.rodrigues@usp.br</a></p><p class="muted">Laboratório, orientação, projeto e financiamento: a informar pelo autor.</p>'],
- priv:['Privacidade','<p>A Vereda não pede cadastro e não coleta dados pessoais. Não há rastreadores nem anúncios.</p><p>Algumas preferências (cores, modo leve, aceite do termo) ficam guardadas só no seu navegador e podem ser apagadas limpando os dados do site.</p>'],
+ priv:['Privacidade','<p>A Vereda não pede cadastro e não coleta dados pessoais. Não há rastreadores nem anúncios.</p><p>Algumas preferências (cores, modo leve, idioma) ficam guardadas só no seu navegador e podem ser apagadas limpando os dados do site.</p>'],
  lic:['Licenças','<p>Textos, mapas e figuras da Vereda: <b>CC BY-NC 4.0</b>, uso livre para fins não comerciais, sempre com a citação.</p><p>Dados de terceiros seguem as licenças de origem: OpenStreetMap (ODbL), MapBiomas (CC BY 4.0), Copernicus/Sentinel-2 (uso livre), IBGE (dados públicos). Bibliotecas: D3 (ISC), Plotly.js (MIT), three.js (MIT).</p>'],
  atr:['Atribuição dos dados','<p>'+FOOT.replace(/^.*?Fontes:/,'Fontes:')+'</p><p>Sistema viário © colaboradores do OpenStreetMap.</p>'],
  avi:['Aviso: uso exploratório','<p>Os mapas e índices são <b>estimativas</b> feitas com dados públicos e modelos simplificados. Servem para estudar, conversar e priorizar. Não substituem vistoria, projeto, laudo ou plano oficial de defesa civil.</p>'],
@@ -3950,7 +3959,7 @@ function vModal(k){const TX={
  doi:['DOI','<p>O DOI ainda será registrado. Até lá, cite pelo endereço do site e pela versão.</p>']}[k];if(!TX)return;
  const d=document.createElement('div');d.className='vterm vmod';d.innerHTML=`<div class="vtbox" role="dialog" aria-modal="true"><button class="mipx" aria-label="fechar" style="position:absolute;right:10px;top:8px">×</button><div class="vcl">vereda</div><h2>${TX[0]}</h2>${TX[1]}</div>`;document.body.appendChild(d);const cl=()=>d.remove();d.onclick=e=>{if(e.target===d)cl()};d.querySelector('.mipx').onclick=cl;document.addEventListener('keydown',function f(e){if(e.key==='Escape'){cl();document.removeEventListener('keydown',f)}})}
 function vShare(b){const u=VSITE;if(navigator.share)navigator.share({title:'Vereda',url:u}).catch(()=>{});else{try{navigator.clipboard.writeText(u);b.textContent='link copiado ✓'}catch(e){}}}
-function vTermoShow(){try{localStorage.removeItem('vereda-termo')}catch(e){}vTermo(()=>{})}
+function vTermoShow(){window.__termoOk=false;vTermo(()=>{})}
 const vFoot=()=>{const L=(t,on)=>`<a href="#" onclick="event.preventDefault();${on}">${t}</a>`,X=(t,h)=>`<a href="${h}" target="_blank" rel="noopener">${t} ↗</a>`,go=(e,s)=>`goTo('${e}','${s}')`,sb=id=>`goTo('home','como');setTimeout(()=>document.getElementById('${id}')?.scrollIntoView(),900)`;
  const C=[['Institucional',[X('Universidade de São Paulo','https://www5.usp.br/'),L('Laboratório','vModal(\'auto\')'),L('Projeto',sb('s-sobre')),L('Financiamento','vModal(\'auto\')'),L('Autoria e equipe','vModal(\'auto\')')]],
  ['Técnico-científico',[L('Catálogo e metadados',sb('s-din')),L('Referências',sb('s-ref')),X('Dados e código (sem API)',VGIT),L('Atualizações',sb('s-log')),L('Data dos dados',sb('s-din')),L('Licenças','vModal(\'lic\')'),L('Reprodutibilidade e limitações',go('cal','lim'))]],
@@ -3959,15 +3968,15 @@ const vFoot=()=>{const L=(t,on)=>`<a href="#" onclick="event.preventDefault();${
  ['Compartilhar',[X('Repositório',VGIT),`<a href="#" onclick="event.preventDefault();vCopy(this)">Citar</a>`,L('DOI','vModal(\'doi\')'),`<a href="#" onclick="event.preventDefault();vShare(this)">Compartilhar</a>`,L('Exportar','vModal(\'exp\')')]]];
  return `<nav class="vfc" aria-label="rodapé">${C.map(([h,ls])=>`<div><div class="vcl">${h}</div>${ls.join('')}</div>`).join('')}</nav>`};
 
-/* termo de responsabilidade: aparece ao clicar em iniciar, uma vez por navegador */
-function vTermo(ok){let A=false;try{A=localStorage.getItem('vereda-termo')==='1'}catch(e){}if(A){ok();return}
+/* termo de responsabilidade: aparece toda vez que o site é aberto (logo depois da capa), por qualquer caminho */
+function vTermo(ok){if(window.__termoOk){ok();return}if(document.querySelector('.vterm')){const w=setInterval(()=>{if(window.__termoOk){clearInterval(w);ok()}},150);return}try{localStorage.removeItem('vereda-termo')}catch(e){}
  const d=document.createElement('div');d.className='vterm';d.innerHTML=`<div class="vtbox" role="dialog" aria-modal="true" aria-labelledby="vtt"><div class="vcl">antes de entrar</div><h2 id="vtt">Termo de uso e responsabilidade</h2>
  <p>A Vereda é um trabalho acadêmico de <b>Renato Bezerra Rodrigues</b> (USP, 2026). Os mapas, índices e textos são <b>estimativas</b> feitas com dados públicos; servem para estudar, conversar e priorizar, não substituem vistoria, projeto ou laudo.</p>
  <p>Ao entrar, eu me comprometo a:</p><ul><li>citar a fonte sempre que usar mapas, dados, textos ou figuras do sistema;</li><li>não apresentar este conteúdo como meu (sem plágio);</li><li>não usar o material para fins comerciais sem autorização do autor.</li></ul>
  <div class="vcl" style="margin-top:12px">Como citar</div><p class="vcc">${vCite()}</p>
  <label class="vtck"><input type="checkbox" id="vtc"> Li e concordo com o termo</label><div class="vcb"><button class="btn" onclick="vCopy(this)">copiar citação</button><button class="btn vtgo" id="vtg" disabled>entrar ›</button></div></div>`;
  document.body.appendChild(d);const c=d.querySelector('#vtc'),g=d.querySelector('#vtg');c.onchange=()=>g.disabled=!c.checked;
- g.onclick=()=>{try{localStorage.setItem('vereda-termo','1')}catch(e){}d.classList.add('out');setTimeout(()=>d.remove(),300);ok()};c.focus()}
+ g.onclick=()=>{window.__termoOk=true;d.classList.add('out');setTimeout(()=>d.remove(),300);ok()};c.focus()}
 
 
 /* sensibilidade: de onde vêm as notas de 1 a 9 */
@@ -4109,7 +4118,7 @@ function landOpen(){let L=document.getElementById('land');if(L){L.hidden=false;L
  
  const enter=async(e,s)=>{L.classList.remove('s1');EX=e;if(s)ST=s;await render();scrollTo({top:0});L.classList.add('leave');setTimeout(()=>{L.hidden=true;L.classList.remove('leave');LAND.stop()},520)};
  ring.querySelectorAll('.otab').forEach(b=>b.onclick=ev=>{ev.stopPropagation();const [e,s]=D[+b.dataset.i];enter(e,s)});
- document.getElementById('go').onclick=ev=>{ev.stopPropagation();if(L.classList.contains('s1'))L.classList.remove('s1');else vTermo(()=>L.classList.add('s1'))};document.getElementById('lskip').onclick=()=>vTermo(()=>enter('mapa','mapa'));{const mb=document.getElementById('lmenu');if(mb)mb.onclick=ev=>{ev.stopPropagation();L.classList.toggle('s1')}}document.getElementById('vlogo2').onclick=()=>L.classList.remove('s1')}
+ document.getElementById('go').onclick=ev=>{ev.stopPropagation();if(L.classList.contains('s1'))L.classList.remove('s1');else vTermo(()=>L.classList.add('s1'))};document.getElementById('lskip').onclick=()=>vTermo(()=>enter('mapa','mapa'));{const mb=document.getElementById('lmenu');if(mb)mb.onclick=ev=>{ev.stopPropagation();vTermo(()=>L.classList.toggle('s1'))}}document.getElementById('vlogo2').onclick=()=>L.classList.remove('s1')}
 let LAND=null;
 /* carregamentos e conclusão: barra de progresso no topo, anel com etapas e pontinhos no canto, esqueleto com brilho, check ao terminar */
 let VLN=0,VLT=0;function vLoad(on,lab){let b=document.getElementById('vprog'),c=document.getElementById('vldc');if(!b){b=document.createElement('div');b.id='vprog';b.innerHTML='<i></i>';document.body.appendChild(b);c=document.createElement('div');c.id='vldc';c.innerHTML='<svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="7.5"/><path d="M10 2.5a7.5 7.5 0 0 1 7.5 7.5"/></svg><span></span><b class="vldd"><i></i><i></i><i></i></b>';document.body.appendChild(c)}
@@ -4537,7 +4546,7 @@ function vSplash(next){const d=document.createElement('div');d.id='vsplash';d.in
   if(window.VPAUSE){raf=0;return}raf=requestAnimationFrame(frame)};
  build();raf=requestAnimationFrame(frame);window.__spRes=()=>{if(!raf&&d.isConnected&&!d.classList.contains('out')){t0=performance.now()-8000;LF=0;raf=requestAnimationFrame(frame)}};const rs=()=>{build();if(lite||window.VPAUSE){LF=0;frame(performance.now())}};addEventListener('resize',rs);
  let mt=0;d.onmousemove=e=>{const n=performance.now();if(n-mt<60)return;mt=n;M.x=e.clientX*dp;M.y=e.clientY*dp};
- const go=()=>{cancelAnimationFrame(raf);removeEventListener('resize',rs);document.body.classList.remove('vsp');d.classList.add('out');setTimeout(()=>d.remove(),650);next&&next();try{LAND&&!document.getElementById('land').hidden&&LAND.start()}catch(e){}};
+ const go=()=>{cancelAnimationFrame(raf);removeEventListener('resize',rs);document.body.classList.remove('vsp');d.classList.add('out');setTimeout(()=>vTermo(()=>{}),250);setTimeout(()=>d.remove(),650);next&&next();try{LAND&&!document.getElementById('land').hidden&&LAND.start()}catch(e){}};
  d.onclick=go;d.onkeydown=e=>{if(e.key==='Enter'||e.key===' ')go()};d.tabIndex=0;setTimeout(()=>d.focus(),50)}
 
 function landEngine(L){const cv=L.querySelector('#lcv'),ctx=cv.getContext('2d'),off=document.createElement('canvas'),oc=off.getContext('2d',{willReadFrequently:true}),LS=document.createElement('canvas'),LF=document.createElement('canvas'),COMP=document.createElement('canvas');
