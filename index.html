@@ -174,6 +174,18 @@ html.pausa #vsplash *,html.pausa #land *{animation-play-state:paused!important}#
 #vldc:not(.on){visibility:hidden}#vldc:not(.on) *,#vldc.ok *{animation:none!important}#mexp .mxs{content-visibility:auto;contain-intrinsic-size:auto 420px}
 #main{view-transition-name:vmain}::view-transition-old(root),::view-transition-new(root){animation-duration:.2s}::view-transition-old(vmain){animation:.16s ease-in both vtOut}::view-transition-new(vmain){animation:.34s cubic-bezier(.2,.7,.2,1) .06s both vtIn}@keyframes vtOut{to{opacity:0;transform:translateY(-6px)}}@keyframes vtIn{from{opacity:0;transform:translateY(10px)}}@media (prefers-reduced-motion:reduce){::view-transition-old(vmain),::view-transition-new(vmain){animation:none}}
 .wrap>*,#main,#main>*,#main section>*{min-width:0}
+@media (max-width:760px){
+ html,body{overflow-x:clip}
+ .fpage{width:auto!important;max-width:100%!important;margin:8px 0!important;padding:16px 12px!important;box-sizing:border-box}
+ .fpage [class*=grid],.fpage .two,.fpage .three{grid-template-columns:1fr!important}
+ .fpage canvas,.fpage svg,.fpage img{max-width:100%!important;height:auto!important}
+ .fpage table{display:block;overflow-x:auto;max-width:100%}
+ .fpage *{min-width:0}
+ #main .card{max-width:100%}
+ #land .top{gap:8px}#land .top .skip{white-space:nowrap;font-size:10px;padding:6px 8px;letter-spacing:.05em}#land .top .vlogo{font-size:19px}#land .top .vlogo .vflor{margin-right:.3em}
+ #main table{display:block;overflow-x:auto;max-width:100%;-webkit-overflow-scrolling:touch}
+ #main .card{overflow-x:auto}
+}
 .vlogo b{font-weight:700}.vlogo i{font-style:normal;font-weight:300}.vlogo .lo{transform:translateY(3px)}
 .vlogo small{font:400 10px var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:0 0 3px 14px}
 .vnav{display:flex;gap:2px;align-items:center;flex-wrap:wrap}
@@ -1591,9 +1603,10 @@ async function homeRef(){const R=[
  ['Dados',[['INMET – estação automática A009 Palmas, 2025.','Temperatura, umidade e chuva horárias.'],['IBGE – Censo Demográfico 2022, agregados por setor censitário.',''],['IBGE – BDiA Pedologia 1:250.000.',''],['MapBiomas – Coleção 9 (1985–2023) e MapBiomas Fogo.',''],['SGB/CPRM – SIAGAS, poços tubulares.',''],['Overture Maps Foundation e OpenStreetMap.','Edificações e uso do solo.'],['Procedimentos do autor (scripts s1–s23 em QGIS/GDAL/GRASS).','MDE das curvas de 1 m, manchas de inundação (IDF recalibrada), diagnósticos e pontos de validação.']]]];
  add(`<section><h2>Referências e fontes</h2>${R.map(([g,L])=>`<h3>${g}</h3><ul class="refs">${L.map(([a,b])=>`<li>${a}${b?`<br><span class="src">${b}</span>`:''}</li>`).join('')}</ul>`).join('')}</section>`)}
 /* ================= VERSÃO E ATUALIZAÇÕES ================= */
-const VERSAO={n:'2.26',d:'02/11/2026',h:'23:59'};
+const VERSAO={n:'2.27',d:'02/11/2026',h:'23:59'};
 const CHANGELOG=[
  {v:'2.16',d:'02/11/2026 21:00',t:'Rede de fluxos em 3D, como um campo de flores',i:['Rede de fluxos em 3D: cada centro é uma sempre-viva com haste saindo do chão, entre o capim; gira sozinha devagar, arrasta, aproxima e balança com o vento','Modos de ver: campo, importância (altura e tamanho pelo peso FAHP e pelas ligações), agrupar (por tipo) e bagunçar (embaralha o campo); transições suaves entre eles','Barra de detalhe: de só os centros até tudo, com todos os fios','Mais dados: pesos FAHP nos subeixos e variáveis, o risco de cada ameaça, os indicadores de exposição e vulnerabilidade ligados aos riscos com o peso de cada um, a validação de campo (pontos e AUC) e o momento da água de cada SbN; novos filtros de fios (pessoas, momentos, validação)','A versão 2D continua no botão 2D']},
+{v:'2.27',d:'03/11/2026 03:20',t:'Celular',i:['Nenhuma página rola mais para o lado no celular: tabelas e cartões largos rolam dentro deles','Ficha do bairro no celular: ocupa a largura da tela, em uma coluna, com mapas e tabelas ajustados (antes ficava com 870 px e cortava)','Página do iniciar: o topo (logo, menu e entrar no mapa) cabe na tela']},
 {v:'2.26',d:'03/11/2026 03:00',t:'Endereço de cada página',i:['Cada página tem seu endereço (ex.: …#enx-res para Enxurrada › Resultados): dá para copiar o link e mandar para alguém','O botão voltar e avançar do navegador funciona entre as páginas','Quem abre um link direto vê a capa e, ao clicar, vai direto para a página do link (sem passar pelo menu do iniciar); recarregar continua mostrando a capa']},
 {v:'2.25',d:'03/11/2026 02:40',t:'Páginas lentas mais rápidas',i:['Momentos da água › Sensibilidade: de ~7 s para ~0,5 s (conta dos cenários reescrita e feita em partes)','Sensibilidade das ameaças: o mapa de incerteza (60 sorteios) é feito em partes, sem travar a página; os cenários de peso também','Atlas e árvores: cores dos mapinhas por tabela pré-calculada (de 3–4 s para menos de 1 s)','Todas as escalas de cor do site usam tabela pré-calculada de 1025 tons: os mapas pintam igual e bem mais rápido','Trocar de página no meio de um cálculo não gera mais erro (a conta antiga para sozinha)']},
 {v:'2.24',d:'03/11/2026 02:10',t:'Correções',i:['A biblioteca dos diagramas de fluxo (d3-sankey) vem dentro do site: as abas de Resultados das ameaças, Fitofisionomia e as análises de Riscos e SbN não quebram mais se o CDN falhar','Números sem dado aparecem como “—” em vez de NaN em todo o site (ex.: Lazer e convívio na água, em Fitofisionomia › Risco)','SbN › Fitofisionomias: a tabela larga rola dentro do cartão e não alarga mais a página inteira (vale para todas as tabelas largas)']},
