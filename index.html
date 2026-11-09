@@ -374,7 +374,7 @@ html.lite #vprog.on i,html.lite #vldc path,html.lite .vldd i,html.lite .vsk i{an
 </div>
 <div class="tip" id="tip" hidden></div>
 <script>/* versão offline: aberta como arquivo (file://), o Chrome bloqueia fetch; as camadas vêm de lay/*.js */
-if(location.protocol==='file:'){const _f=window.fetch.bind(window);window.__L=window.__L||{};window.fetch=async(u,o)=>{if(typeof u==='string'&&u.startsWith('lay/')){const n=u.slice(4).replace(/\.wasm$/,'');if(!window.__L[n])await new Promise((res,rej)=>{const sc=document.createElement('script');sc.src='lay/'+n+'.js';sc.onload=res;sc.onerror=()=>rej(new Error('camada '+n+' não encontrada na pasta lay'));document.head.appendChild(sc)});const b64=window.__L[n];delete window.__L[n];const bin=atob(b64),u8=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)u8[i]=bin.charCodeAt(i);return new Response(u8)}return _f(u,o)}}</script>
+if(location.protocol==='file:'){const _f=window.fetch.bind(window);window.__L=window.__L||{};window.fetch=async(u,o)=>{if(typeof u==='string'&&u.startsWith('lay/')){const n=u.slice(4).replace(/\.wasm(\?.*)?$/,'');if(!window.__L[n])await new Promise((res,rej)=>{const sc=document.createElement('script');sc.src='lay/'+n+'.js';sc.onload=res;sc.onerror=()=>rej(new Error('camada '+n+' não encontrada na pasta lay'));document.head.appendChild(sc)});const b64=window.__L[n];delete window.__L[n];const bin=atob(b64),u8=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)u8[i]=bin.charCodeAt(i);return new Response(u8)}return _f(u,o)}}</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
 <script>/* d3-sankey 0.12.3 (BSD-3, Mike Bostock) embutido: não depende de CDN */
 // https://github.com/d3/d3-sankey v0.12.3 Copyright 2019 Mike Bostock
@@ -476,8 +476,8 @@ const _b64m=s=>{const b=atob(s),u=new Uint8Array(b.length);for(let i=0;i<b.lengt
 const MASK=(()=>{const b=_b64m(G.mask),o=new Uint8Array(GW*GH);for(let i=0;i<o.length;i++)o[i]=(b[i>>3]>>(7-(i&7)))&1;return o})();
 const _gbs=x=>G.GB.slice(x[0],x[0]+x[1]);const SETR=(()=>{const b=G.GB?_gbs(G.setx):_b64m(G.set);return new Uint16Array(b.buffer)})();
 const _b64=s=>{const b=atob(s),u=new Uint8Array(b.length);for(let i=0;i<b.length;i++)u[i]=b.charCodeAt(i);return u};const LY=new Proxy({},{get:(o,k)=>{if(k in o)return o[k];if(typeof k==='string'&&G.L[k]){o[k]=G.GB?_gbs(G.Lx[k]):_b64(G.L[k]);return o[k]}return undefined},has:(o,k)=>k in G.L,ownKeys:()=>Object.keys(G.L),getOwnPropertyDescriptor:(o,k)=>k in G.L?{enumerable:true,configurable:true,value:LY_get(k)}:undefined});function LY_get(k){return LY[k]}
-const LC={},LP={};async function getL(n){if(LC[n])return LC[n];if(LP[n])return LP[n];LP[n]=(async()=>{const r=await fetch('lay/'+n+'.wasm');if(!r.ok)throw new Error('camada '+n);const b=new Uint8Array(await r.arrayBuffer());LC[n]=b;return b})();try{return await LP[n]}finally{delete LP[n]}}
-async function getL16(n){if(LC[n])return LC[n];const r=await fetch('lay/'+n+'.wasm');const b=new Uint16Array(await r.arrayBuffer());LC[n]=b;return b}
+const LC={},LP={};async function getL(n){if(LC[n])return LC[n];if(LP[n])return LP[n];LP[n]=(async()=>{const r=await fetch('lay/'+n+'.wasm?v='+VERSAO.n);if(!r.ok)throw new Error('camada '+n);const b=new Uint8Array(await r.arrayBuffer());LC[n]=b;return b})();try{return await LP[n]}finally{delete LP[n]}}
+async function getL16(n){if(LC[n])return LC[n];const r=await fetch('lay/'+n+'.wasm?v='+VERSAO.n);const b=new Uint16Array(await r.arrayBuffer());LC[n]=b;return b}
 const lv=(n,q)=>{const R=D2.lays[n];return q===255?NaN:R[0]+q/254*(R[1]-R[0])};
 const SCL=2;
 /* contorno da bacia: com o zero em branco, a forma da bacia continua visível */
@@ -3638,7 +3638,7 @@ const CKC=d3.quantize(d3.interpolateRainbow,CKL.length+1);
 const HC={};let HRES=30,HFOC=null;const HSZ=[5,10,30,50,100];
 const famSel=(id,all)=>`<select id="${id}"><option value="">${all||'todas'}</option>${FAMK.map(f=>`<optgroup label="${FAMN[f]}"><option value="f:${f}">— toda a família ${FAMN[f]}</option>${CATL.filter(t=>t.fam===f).map(t=>`<option value="${t.id}">${t.n}</option>`).join('')}</optgroup>`).join('')}</select>`;
 setTimeout(()=>{const f=()=>{try{getHex(30).catch(()=>{})}catch(e){}};window.requestIdleCallback?requestIdleCallback(f,{timeout:8000}):f()},7000);
-async function getHex(s){await hxLoad(s);if(HC[s])return HC[s];const f=async n=>new Uint8Array(await (await fetch(`lay/hx${s}_${n}.wasm`)).arrayBuffer());
+async function getHex(s){await hxLoad(s);if(HC[s])return HC[s];const f=async n=>new Uint8Array(await (await fetch(`lay/hx${s}_${n}.wasm?v=${VERSAO.n}`)).arrayBuffer());
  const [qrb,sc0,pkb,mf,cr,cd,sc2,ev,ct]=await Promise.all([...['qr',s===5?'sc1':'sc','pk','mf','cr','cd'].map(f),s===5?f('sc2'):null,f('ev'),f('ct').catch(()=>null)]);const sc=sc2?(()=>{const u=new Uint8Array(sc0.length+sc2.length);u.set(sc0);u.set(sc2,sc0.length);return u})():sc0;const qr=new Int16Array(qrb.buffer),pk=new Uint16Array(pkb.buffer),N=qr.length/2,size=HX[s].size,S3=Math.sqrt(3);
  const cx=new Float32Array(N),cy=new Float32Array(N),dom=new Uint8Array(N),top=new Uint8Array(N),inc=new Uint8Array(N),nk=new Uint8Array(N),idx=new Map(),mg=new Uint8Array(N),ft=new Uint8Array(N),lf=new Uint8Array(N),rd=new Uint8Array(N),ca=new Uint8Array(N),dr=new Uint8Array(N);
  for(let h=0;h<N;h++){if((h&131071)===131071)await new Promise(r_=>setTimeout(r_,0));const q=qr[2*h],r=qr[2*h+1];cx[h]=size*S3*(q+r/2);cy[h]=size*1.5*r;idx.set(q*65536+r,h);const o=h*8;dom[h]=sc[o];top[h]=sc[o+4];let s4=sc[o+4]+sc[o+5]+sc[o+6]+sc[o+7],b=0,fm=0;for(let j=0;j<4;j++){const v=sc[o+4+j];if(v>=51&&v/s4>=.12){b|=1<<j;fm|=1<<FAMI[sc[o+j]]}}inc[h]=b;let c=0;for(let q=fm;q;q>>=1)c+=q&1;nk[h]=c;
